@@ -25,7 +25,7 @@
 -- Erros and comments by developer:
 --      
 -------------------------------------------------------------------------------
---
+-- 
 -- Revision 1.0
 -- Mentor: Rastislav Struharek
 -- Revision 0.01 - File Create
@@ -97,10 +97,9 @@ architecture behavioral of cpu is
   -- alu control unit 
   component alucontrolunit is
     port (
-      opcode    : in  std6_st;
-      rt        : in  std5_st;
-      func      : in  std6_st;
-      operation : out AluOp_t);
+      cu_operation : in  AluOp_t;
+      func         : in  std6_st;
+      operation    : out AluOp_t);
   end component alucontrolunit;
 
   -- alu unit 
@@ -113,6 +112,16 @@ architecture behavioral of cpu is
       result64  : out std32_st);
   end component alu;
 
+  component controlunit is
+    port (
+      opcode               : in  std6_st;
+      register_write       : out std_logic;
+      memory_write         : out std_logic;
+      memory_read          : out std_logic;
+      mem_to_reg           : out std_logic;
+      register_destination : out std_logic;
+      alu_source           : out std_logic);
+  end component controlunit;
 
 
   -----------------------------------------------------------------------------
@@ -140,10 +149,9 @@ architecture behavioral of cpu is
   signal rom_data : std32_st;
 
   -- alu control unit
-  signal alucon_opcode    : std6_st;
-  signal alucon_rt        : std5_st;
-  signal alucon_func      : std6_st;
-  signal alucon_operation : AluOp_t;
+  signal alucon_cu_operation : AluOp_t;
+  signal alucon_func         : std6_st;
+  signal alucon_operation    : AluOp_t;
 
   --alu unit
   signal alu_operand1  : std32_st;
@@ -152,7 +160,20 @@ architecture behavioral of cpu is
   signal alu_result64  : std32_st;
   signal alu_operation : AluOp_t;
 
+  --control unit 
+  signal cu_opcode                : std6_st;
+  signal cu_register_write        : std_logic;
+  signal cu_register_destionation : std_logic;
+  signal cu_memory_write          : std_logic;
+  signal cu_memory_read           : std_logic;
+  signal cu_mem_to_reg            : std_logic;
+  signal cu_register_destination  : std_logic;
+  signal cu_alu_opcode            : std_logic;
+  signal cu_alu_source            : std_logic;
+
+
   signal instruction_v : std32_st;
+
 
 
 -------------------------------------------------------------------------------
@@ -191,10 +212,9 @@ begin  -- architecture behavioral
 
   alucontrolunit_c : alucontrolunit
     port map (
-      opcode    => alucon_opcode,
-      rt        => alucon_rt,
-      func      => alucon_func,
-      operation => alu_operation);
+      cu_operation => alucon_cu_operation,
+      func         => alucon_func,
+      operation    => alu_operation);
 
 
   alu_c : alu
@@ -205,7 +225,14 @@ begin  -- architecture behavioral
       result64  => alu_result64,
       operation => alu_operation);
 
-
+  controlunit_c : controlunit
+    port map (
+      opcode               => cu_opcode,
+      register_write       => cu_register_write,
+      register_destination => cu_register_destionation,
+      memory_write         => cu_memory_write,
+      memory_read          => cu_memory_read,
+      alu_source           => cu_alu_source);
 
   main_process : process (clk, rst) is
     variable lo_v, hi_v : std32_st;
@@ -227,36 +254,9 @@ begin  -- architecture behavioral
 
     elsif clk'event and clk = '1' then  -- rising clock edge
 
-      -- IF ( instruction fetch ) phase 
-      --reading instructin from rom
-      rom_addr      <= conv_std_logic_vector(pc_v, 10);
-      instruction_v := rom_data;
+     
 
-      -- ID ( instruction decode ) & RF ( register fetch ) phase 
-      --decodeing instruction 
-      --writeing sources addresses to register 
-      reg_wr <= read_c; 
-      reg_rdAddr1   <= rs_a;
-      reg_rdAddr2 <=  rt_a;
 
-      -- EX ( execute ) phase
-      -- decode opertaion
-      -- execute operaton in ALU 
-      alucon_opcode <= opcode_a;
-      alucon_func   <= func_a;
-      alu_operand1 <= reg_rdData1;
-      -- if operation is I type then 
-      if operation = (alu_addi or alu_addiu or alu_slti or
-                      alu_sltiu or alu_andi or alu_ori or
-                      alu_xori) then
-        alu_operand2 <= imm_a;
-      else
-        alu_operand2 <= reg_rdData2;
-      end if;
-
-      alu_operation <= alucon_operation;
-      
-      
 
     end if;
   end process main_process;

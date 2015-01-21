@@ -56,13 +56,13 @@ begin  -- architecture Behavioral
     variable oper_us1 : std32_st;
     variable oper_us2 : std32_st;
     variable dualres  : std64_st := "0000000000000000000000000000000000000000000000000000000000000000";
-    variable oper_s1 : std32_st;
-    variable oper_s2 : std32_st;
+    variable oper_s1  : std32_st;
+    variable oper_s2  : std32_st;
     variable L        : line;
   begin  -- process
     --oper_us1 := unsigned(operand1);
     --oper_us2 := unsigned(operand2);
-    
+
 
     case operation is
       when alu_or =>
@@ -73,6 +73,8 @@ begin  -- architecture Behavioral
         result <= operand1 xor operand2;
       when alu_and =>
         result <= operand1 and operand2;
+      when alu_add =>
+        result <= 
 
       when others =>
         result <= std32_zero_c;

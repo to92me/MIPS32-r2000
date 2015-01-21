@@ -34,12 +34,6 @@
 --
 ----------------------------------------------------------------------------------
 
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
-
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
@@ -50,18 +44,18 @@ package Definitions_pkg is
   -----------------------------------------------------------------------------
   -- subtypes of stdlogic for easier manageing
   -----------------------------------------------------------------------------
-  subtype std32_st is std_logic_vector(31 downto 0);   -- Word
-  subtype std16_st is std_logic_vector(15 downto 0);   -- HalfWord
-  subtype std8_st is std_logic_vector(7 downto 0);     -- Byte
-  subtype std6_st is std_logic_vector(5 downto 0);     -- Instructions
-  subtype std5_st is std_logic_vector(4 downto 0);     -- address
-  subtype std10_st is std_logic_vector(9 downto 0);    -- rom address
-  subtype std25_st is std_logic_vector(24 downto 0);   -- for instruction-index
+  subtype std32_st is std_logic_vector(31 downto 0);  -- Word
+  subtype std16_st is std_logic_vector(15 downto 0);  -- HalfWord
+  subtype std8_st is std_logic_vector(7 downto 0);    -- Byte
+  subtype std6_st is std_logic_vector(5 downto 0);    -- Instructions
+  subtype std5_st is std_logic_vector(4 downto 0);    -- address
+  subtype std10_st is std_logic_vector(9 downto 0);   -- rom address
+  subtype std25_st is std_logic_vector(24 downto 0);  -- for instruction-index
   subtype std26_st is std_logic_vector (25 downto 0);  --
   subtype std64_st is std_logic_vector(63 downto 0);  -- for dual result in alu
 
   constant write_c : std_logic := '1';  -- for writeing in register or memory
-  constant read_c : std_logic := '0';   -- for reading from registers or memory
+  constant read_c  : std_logic := '0';  -- for reading from registers or memory
   -----------------------------------------------------------------------------
 
   -----------------------------------------------------------------------------
@@ -94,7 +88,6 @@ package Definitions_pkg is
   constant DIVU_fun_c  : std6_st := "011011";  -- Divide Unsigned Word
   constant MULT_fun_c  : std6_st := "011000";  -- Multiply Word
   constant MULTU_fun_c : std6_st := "011001";  -- Multiply Unsigned Word
-  --constant NOP_fun_c   : std6_st := "000000";  -- NOP NOP NOP :D
   constant SLT_fun_c   : std6_st := "101010";  -- Set on Less Than
   constant SLTU_fun_c  : std6_st := "101011";  -- Set On Less Unsigned
   constant SUB_fun_c   : std6_st := "100010";  -- Subtract Word
@@ -125,7 +118,7 @@ package Definitions_pkg is
   constant AND_fun_c : std6_st := "100100";  -- And
   constant NOR_fun_c : std6_st := "100111";  -- Nor
   constant OR_fun_c  : std6_st := "100101";  -- Or
-  constant XOR_ic    : std6_st := "100110";  -- Exclusive OR
+  constant XOR_fun_c : std6_st := "100110";  -- Exclusive OR
 
   --standalone 
   constant ANDI_op_c : std6_st := "001100";  -- And Immediate
@@ -189,9 +182,10 @@ package Definitions_pkg is
 -------------------------------------------------------------------------------
 -- OTHER STUFF
 -------------------------------------------------------------------------------
-  type rw_t is (read_c, write_c);
+  --type rw_t is (read_c, write_c);
 
   type AluOp_t is (
+    alu_special1, alu_special2,
     alu_add, alu_addu, alu_div, alu_divu, alu_mult, alu_multu, alu_slt, alu_sltu,
     alu_sub, alu_subu,
     alu_clo, alu_clz, alu_madd, alu_maddu, alu_msub, alu_msubu, alu_mul,
@@ -203,7 +197,7 @@ package Definitions_pkg is
     alu_pref, alu_sb, alu_sh, alu_sw, alu_swl, alu_swr, alu_sc,
     alu_sync, alu_syscall,
     alu_mfhi, alu_mflo, alu_movn, alu_movz, alu_mthi, alu_mtlo,
-    alu_nop);                               -- alu operations
+    alu_nop);                           -- alu operations
 
 end package Definitions_pkg;
 

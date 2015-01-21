@@ -50,16 +50,14 @@ architecture Behavioral of alucontrolunit_tb is
 
   component alucontrolunit is
     port (
-      opcode    : in  std6_st;
-      rt        : in  std5_st;
-      func      : in  std6_st;
-      operation : out AluOp_t);
+      cu_operation : in  AluOp_t;
+      func         : in  std6_st;
+      operation    : out AluOp_t);
   end component alucontrolunit;
 
-  signal acu_opcode    : std6_st;
-  signal acu_func      : std6_st;
-  signal acu_operation : AluOp_t;
-  signal acu_rt        : std5_st;
+  signal acu_cu_operation : AluOp_t;
+  signal acu_operation    : AluOp_t;
+  signal acu_func         : std6_st;
 
   constant clk_period : time := 1 ns;
 
@@ -67,26 +65,29 @@ begin  -- architecture Behavioral
 
   alucontrolunit_c : alucontrolunit
     port map (
-      opcode    => acu_opcode,
-      func      => acu_func,
-      operation => acu_operation,
-      rt        => acu_rt);
+      cu_operation => acu_cu_operation,
+      operation    => acu_operation,
+      func         => acu_func);
 
   process is
     variable tmp : AluOp_t;
   begin  -- process
     wait for 2 ns;
-    acu_opcode <= ADDI_op_c;
+    acu_cu_operation <= alu_addiu;
     wait for 1 ns;
-    --tmp        := acu_operation;
+    acu_cu_operation <= alu_xori;
     wait for 1 ns;
-    acu_opcode <= special1_c;
-    acu_func   <= ADDU_fun_c;
+    acu_func         <= ADDU_fun_c;
+    acu_cu_operation <= alu_special1;
+
+
     wait for 1 ns;
-    acu_opcode <= special2_c;
-    acu_func   <= MADD_fun_c;
+
+    acu_cu_operation <= alu_special2;
+    acu_func         <= MADD_fun_c;
+
+
     wait for 1 ns;
-    acu_opcode <= "111111";
   end process;
 
 end architecture Behavioral;
