@@ -47,7 +47,7 @@ end entity controlunit_tb;
 
 architecture Behavioral of controlunit_tb is
 
-  component controlunit is
+  component ControlUnit is
     port (
       opcode               : in  std6_st;
       register_write       : out std_logic;
@@ -58,7 +58,7 @@ architecture Behavioral of controlunit_tb is
       alu_operation        : out AluOp_t;
       alu_source           : out std_logic;
       branch               : out std_logic);
-  end component controlunit;
+  end component ControlUnit;
 
   
   signal cu_opcode               : std6_st;
@@ -72,7 +72,7 @@ architecture Behavioral of controlunit_tb is
   signal cu_branch               : std_logic;
 
 begin  -- architecture Behavioral 
-  controlunit_c : controlunit
+  controlunit_c : ControlUnit
     port map (
       opcode               => cu_opcode,
       register_write       => cu_register_write,

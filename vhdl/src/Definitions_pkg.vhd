@@ -1,38 +1,24 @@
 -------------------------------------------------------------------------------
---
---                              DEFINITIONS_PKG
---
+--                           DEFINITIONS AND CONSTANTS  
 -------------------------------------------------------------------------------
---
--- Company: FTN
--- Engineer: Tomislav Tumbas
--- email: to92me@gmail.com
---
+-- developer	: Tomislav Tumbas
+-- email 		: tumbas.tomislav@gmail.com 
+-- college 		: Faculty of Technical Science (FTN) Novi Sad 
+-- department 	: Microprocessor Systems and Algorithms
 -------------------------------------------------------------------------------
---
--- Create Date: 11/26/2014 11:50:04 AM
--- Design Name: Definitions package
--- Module Name: Definitions_pkg
--- Project Name: MIPS32 RRISC ( reduced reduced instruction set )
--- Target Devices: xc7z030fbg676-3 (active)
--- Tool Versions: Xilinx Vivado 2014.3.1
--- Description: definitions of common
---      constants
---      types
---      subtypes
---
+-- mentor 		: Rastislav Struharik, Ph.D. 
 -------------------------------------------------------------------------------
---
--- Erros and comments by developer:
---
--------------------------------------------------------------------------------x
---
--- Revision 1.0
--- Mentor: Rastislav Struharek
--- Revision 0.01 - File Created
--- Additional Comments:
---
-----------------------------------------------------------------------------------
+-- project 		: Single cycle MIPS32 design 
+-------------------------------------------------------------------------------
+-- file         : Definitions_pkg.vhd 
+-- module       : package Definitions and constants 
+-- description  : this is common definitions and constant values for whole 
+--				  project. It contains subtypes, constants and new types. 
+-------------------------------------------------------------------------------
+-- todo         : 
+-------------------------------------------------------------------------------
+-- comments     : 
+-------------------------------------------------------------------------------
 
 library IEEE;
 use IEEE.std_logic_1164.all;
@@ -42,7 +28,7 @@ package Definitions_pkg is
 
 
   -----------------------------------------------------------------------------
-  -- subtypes of stdlogic for easier manageing
+  -- subtypes of stdlogic for easier managing
   -----------------------------------------------------------------------------
   subtype std32_st is std_logic_vector(31 downto 0);  -- Word
   subtype std16_st is std_logic_vector(15 downto 0);  -- HalfWord
@@ -53,9 +39,8 @@ package Definitions_pkg is
   subtype std25_st is std_logic_vector(24 downto 0);  -- for instruction-index
   subtype std26_st is std_logic_vector (25 downto 0);  --
   subtype std64_st is std_logic_vector(63 downto 0);  -- for dual result in alu
+  subtype std28_st is std_logic_vector(27 downto 0); 
 
-  constant write_c : std_logic := '1';  -- for writeing in register or memory
-  constant read_c  : std_logic := '0';  -- for reading from registers or memory
   -----------------------------------------------------------------------------
 
   -----------------------------------------------------------------------------
@@ -64,12 +49,11 @@ package Definitions_pkg is
 
 --  type std32_st_file_t is file of std32_st_file_t;  -- type for opening rom and memory files
 
-
   -----------------------------------------------------------------------------
   -- constants
   -----------------------------------------------------------------------------
 
-  constant std32_zero_c : std32_st := "00000000000000000000000000000000";  -- constant for reseting register
+  constant std32_zero_c : std32_st := "00000000000000000000000000000000";  
   constant std32_one_c  : std32_st := "11111111111111111111111111111111";
 
   ------------------------------------------------------------------------------
@@ -98,9 +82,9 @@ package Definitions_pkg is
   constant CLO_fun_c   : std6_st := "100001";  -- Count Leading Ones in Word
   constant CLZ_fun_c   : std6_st := "100000";  -- Count Leading Zeros in Word
   constant MADD_fun_c  : std6_st := "000000";  -- Multiply and Add Word to Hi,Lo
-  constant MADDU_fun_c : std6_st := "000001";  -- multiply and Add Unsigned Word  to Hi,Lo
-  constant MSUB_fun_c  : std6_st := "000100";  -- Multiply and Subtrac Word to Hi,Lo
-  constant MSUBU_fun_c : std6_st := "000101";  -- Multiply  and Subtrac Word to Hi,Lo
+  constant MADDU_fun_c : std6_st := "000001";  -- Multiply and Add Unsigned Word  to Hi,Lo
+  constant MSUB_fun_c  : std6_st := "000100";  -- Multiply and Subtract Word to Hi,Lo
+  constant MSUBU_fun_c : std6_st := "000101";  -- Multiply  and Subtract Word to Hi,Lo
   constant MUL_fun_c   : std6_st := "000010";  -- Multiply Word to GPR
 
 
@@ -150,7 +134,7 @@ package Definitions_pkg is
   constant LUI_op_c  : std6_st := "001111";  -- Load Upper Immediate
   constant LWL_op_c  : std6_st := "100010";  -- Load Word Left
   constant LWR_op_c  : std6_st := "100110";  -- Load Word Right
-  constant PREF_op_c : std6_st := "110011";  -- Prefetc
+  constant PREF_op_c : std6_st := "110011";  -- Pre-fetch
   constant SB_op_c   : std6_st := "101000";  -- Store Byte
   constant SH_op_c   : std6_st := "101001";  -- Store Halfword
   constant SW_op_c   : std6_st := "101011";  -- Store Word
@@ -176,13 +160,12 @@ package Definitions_pkg is
 
 -------------------------------------------------------------------------------
 -- TRAP INSTRUCTIONS 
--- kada saznam sta je mozda i smislim da ih odradim :D :D :D : D
+-- 
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
--- OTHER STUFF
+-- OTHER 
 -------------------------------------------------------------------------------
-  --type rw_t is (read_c, write_c);
 
   type AluOp_t is (
     alu_special1, alu_special2,
@@ -198,6 +181,9 @@ package Definitions_pkg is
     alu_sync, alu_syscall,
     alu_mfhi, alu_mflo, alu_movn, alu_movz, alu_mthi, alu_mtlo,
     alu_nop);                           -- alu operations
+    
+    end package Definitions_pkg;
+    
+    
 
-end package Definitions_pkg;
 

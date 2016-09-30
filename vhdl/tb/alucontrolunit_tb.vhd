@@ -48,12 +48,12 @@ end entity alucontrolunit_tb;
 
 architecture Behavioral of alucontrolunit_tb is
 
-  component alucontrolunit is
+  component AluControlUnit is
     port (
       cu_operation : in  AluOp_t;
       func         : in  std6_st;
       operation    : out AluOp_t);
-  end component alucontrolunit;
+  end component AluControlUnit;
 
   signal acu_cu_operation : AluOp_t;
   signal acu_operation    : AluOp_t;
@@ -63,7 +63,7 @@ architecture Behavioral of alucontrolunit_tb is
 
 begin  -- architecture Behavioral
 
-  alucontrolunit_c : alucontrolunit
+  alucontrolunit_c : AluControlUnit
     port map (
       cu_operation => acu_cu_operation,
       operation    => acu_operation,
