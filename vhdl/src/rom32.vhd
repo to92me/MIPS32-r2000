@@ -1,3 +1,25 @@
+-------------------------------------------------------------------------------
+--                           ROM 
+-------------------------------------------------------------------------------
+-- developer	: Tomislav Tumbas
+-- email 		: tumbas.tomislav@gmail.com 
+-- college 		: Faculty of Technical Science (FTN) Novi Sad 
+-- department 	: Microprocessor Systems and Algorithms
+-------------------------------------------------------------------------------
+-- mentor 		: Rastislav Struharik, Ph.D. 
+-------------------------------------------------------------------------------
+-- project 		: Single cycle MIPS32 design 
+-------------------------------------------------------------------------------
+-- file         : rom.vhd 
+-- module       : Rom
+-- description  : ROM ( read only memory ). In this memory are stored all 
+--				  instructions 
+-------------------------------------------------------------------------------
+-- todo         : 
+-------------------------------------------------------------------------------
+-- comments     : 
+-------------------------------------------------------------------------------
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;

@@ -1,3 +1,25 @@
+-------------------------------------------------------------------------------
+--                           SignExtand 
+-------------------------------------------------------------------------------
+-- developer	: Tomislav Tumbas
+-- email 		: tumbas.tomislav@gmail.com 
+-- college 		: Faculty of Technical Science (FTN) Novi Sad 
+-- department 	: Microprocessor Systems and Algorithms
+-------------------------------------------------------------------------------
+-- mentor 		: Rastislav Struharik, Ph.D. 
+-------------------------------------------------------------------------------
+-- project 		: Single cycle MIPS32 design 
+-------------------------------------------------------------------------------
+-- file         : SignExtand.vhd 
+-- module       : SignExtand
+-- description  : SignExtand it extends signed 16 bit input to signed 32 bit 
+--				  data
+-------------------------------------------------------------------------------
+-- todo         : 
+-------------------------------------------------------------------------------
+-- comments     : 
+-------------------------------------------------------------------------------
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;

@@ -1,37 +1,23 @@
 -------------------------------------------------------------------------------
---
---                          ALU CONTROL UNIT TESTBENCH 
---
+--                           CPU 
 -------------------------------------------------------------------------------
--- 
--- Company: FTN
--- Engineer: Tomislav Tumbas
--- email: to92me@gmail.com
---
+-- developer	: Tomislav Tumbas
+-- email 		: tumbas.tomislav@gmail.com 
+-- college 		: Faculty of Technical Science (FTN) Novi Sad 
+-- department 	: Microprocessor Systems and Algorithms
 -------------------------------------------------------------------------------
---
--- Design Name: alu control unit testbench 
--- Module Name: alucontrolunit_tb - Behavioral
--- Project Name: MIPS32 RRISC ( reduced reduced instruction set )
--- Target Devices: xc7z030fbg676-3 (active)
--- Tool Versions: Xilinx Vivado 2014.3.1
--- Description:
---      Testbecnch for quick partially testing component 
---     
---
+-- mentor 		: Rastislav Struharik, Ph.D. 
 -------------------------------------------------------------------------------
---
--- Erros and comments by developer:
---      
---
+-- project 		: Single cycle MIPS32 design 
 -------------------------------------------------------------------------------
---
--- Revision 1.0
--- Mentor: Rastislav Struharek
--- Revision 0.01 - File Created
--- Additional Comments:
---
-----------------------------------------------------------------------------------
+-- file         : 
+-- module       : 
+-- description  : 
+-------------------------------------------------------------------------------
+-- todo         : 
+-------------------------------------------------------------------------------
+-- comments     : 
+-------------------------------------------------------------------------------
 
 
 library IEEE;

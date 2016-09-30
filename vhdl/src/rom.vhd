@@ -10,9 +10,10 @@
 -------------------------------------------------------------------------------
 -- project 		: Single cycle MIPS32 design 
 -------------------------------------------------------------------------------
--- file         : 
--- module       : 
--- description  : 
+-- file         : rom.vhd 
+-- module       : Rom
+-- description  : ROM ( read only memory ). In this memory are stored all 
+--				  instructions 
 -------------------------------------------------------------------------------
 -- todo         : 
 -------------------------------------------------------------------------------
@@ -29,14 +30,14 @@ entity rom is
 --  generic (
 --    assembly_file : string := "assembly.dat");
   port (
-    addr : in  std5_st;  -- input adress for readnig instruction and registers
-    data : out std32_st);              -- clock
+    addr : in  std5_st;  -- input address for reading instruction and registers
+    data : out std32_st);         -- output data from address 
 
 end entity rom;
 
 architecture rom of rom is
-  type rom_t is array (0 to 31) of std32_st;  -- rom memory type
-  signal rom_v : rom_t;            -- instance of rom_type
+  type rom_t is array (0 to 31) of std32_st;  
+  signal rom_v : rom_t;            
 
 begin  -- architecture rom
 	rom_v(0)  <=  std32_one_c;
@@ -72,24 +73,7 @@ begin  -- architecture rom
 	rom_v(30)  <=  std32_one_c;
 	rom_v(31)  <=  std32_zero_c; 
 
-  -- purpose: read file and store it in rom_v memory 
-  -- type   : combinational
-  -- inputs : 
-  -- outputs: 
---  read_file : process is
---    type std32_st_file_t is file of std32_st;
---    file asm_f           : std32_st_file_t open read_mode is assembly_file;
-    --   file asm_f : text open read_mode is assembly_file;
----    variable line_number : integer := 0;  -- for line in integer
---    variable tmp         : std32_st;
 
---  begin  -- process read_file
---    while not endfile(asm_f) loop
---      read(asm_f, tmp);
---     rom_v(line_number) := tmp;
---     line_number      := line_number + 1;
---   end loop;
---  end process read_file;
 
 	data <= rom_v(TO_INTEGER(unsigned(addr)));
 

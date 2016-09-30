@@ -142,3 +142,28 @@ from memory
 --        rdData <= memory_v(to_integer(unsigned(addr)));
 --      end if;
 --    end if;
+
+
+
+++++++++++++===========================================++++++++++++==++=++==++=++=++=+=++==++++=
+form ram 
+
+
+  -- purpose: read file and store it in rom_v memory 
+  -- type   : combinational
+  -- inputs : 
+  -- outputs: 
+--  read_file : process is
+--    type std32_st_file_t is file of std32_st;
+--    file asm_f           : std32_st_file_t open read_mode is assembly_file;
+    --   file asm_f : text open read_mode is assembly_file;
+---    variable line_number : integer := 0;  -- for line in integer
+--    variable tmp         : std32_st;
+
+--  begin  -- process read_file
+--    while not endfile(asm_f) loop
+--      read(asm_f, tmp);
+--     rom_v(line_number) := tmp;
+--     line_number      := line_number + 1;
+--   end loop;
+--  end process read_file;
