@@ -55,6 +55,7 @@ begin
 		elsif (we = '1') then
 			if (rising_edge(clk)) then
 				memory_v(to_integer(unsigned(addr))) := wrData;
+				report "writing data to RAM. addr:" & integer'image(to_integer(unsigned(addr))) & ", data: " & integer'image(to_integer(unsigned(wrData)));
 			end if;
 		else
 			rdData <= memory_v(to_integer(unsigned(addr)));

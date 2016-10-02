@@ -38,7 +38,7 @@ entity PcCounterUnit is
 		pc_src   : in  std_logic;
 		jump     : in  std_logic;
 		sign_imm : in  std32_st;
-		instr    : in  std32_st
+		instr    : in  std26_st
 	);
 end entity PcCounterUnit;
 
@@ -49,10 +49,14 @@ architecture RTL of PcCounterUnit is
 	signal pc_next_branch     : std32_st;
 	signal pc_next_jump       : std32_st;
 	signal pc_current         : std32_st;
+--	signal shift_debug 		  : std28_st; 
 begin
+	
+--	shift_debug  <=  
 --	pc_plus_4 connects output of adder of 4 and output of d-ff and input of PC source Mux
 	pc_plus_4      <= pc_current + 4;
-	pc_next_jump   <= pc_plus_4(31 downto 28) & (std28_st(unsigned(instr(25 downto 0)) sll 2));
+--	pc_next_jump   <= pc_plus_4(31 downto 28) & (std28_st(unsigned(instr) sll 2)); FIXME 
+	pc_next_jump   <= pc_plus_4(31 downto 28) & instr & "00";
 	pc_next_branch <= (std32_st(unsigned(sign_imm) sll 2)) + pc_plus_4;
 
 	pc_next_to_jmp_mux <= pc_next_branch when (pc_src = '1') else pc_plus_4;

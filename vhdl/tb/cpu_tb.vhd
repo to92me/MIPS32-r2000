@@ -106,6 +106,9 @@ begin
 			addr   => cpu_mem_addr,
 			wrData => cpu_mem_wrData
 		);
+	
+	debug  <=  '0'; 
+	
 	clock_generator : process is
 	begin
 		clk <= '0';

@@ -84,7 +84,7 @@ architecture behavioral of cpu is
 			operand2  : in  std32_st;
 			operation : in  AluOp_t;
 			result    : out std32_st;
-			result64  : out std32_st;
+--			result64  : out std32_st;
 			zero 	  : out std_logic);
 	end component alu;
 		
@@ -110,7 +110,7 @@ architecture behavioral of cpu is
 			pc_src   : in  std_logic;
 			jump     : in  std_logic;
 			sign_imm : in  std32_st;
-			instr    : in  std32_st
+			instr    : in  std26_st
 		);
 	end component PcCounterUnit;
 
@@ -140,7 +140,7 @@ architecture behavioral of cpu is
 	signal alu_operand1  : std32_st;
 	signal alu_operand2  : std32_st;
 	signal alu_result    : std32_st;
-	signal alu_result64  : std32_st;
+--	signal alu_result64  : std64_st;
 	signal alu_operation : AluOp_t;
 	signal alu_zero 	 : std_logic; 
 
@@ -160,7 +160,7 @@ architecture behavioral of cpu is
 	signal pcu_pc_src   : std_logic;
 	signal pcu_jump     : std_logic;
 	signal pcu_sign_imm : std32_st;
-	signal pcu_instr    : std32_st;
+	signal pcu_instr    : std26_st;
 
 	--SignExtend 
 	signal se_in_s16  : std16_st;
@@ -203,7 +203,7 @@ begin
 			operand1  => alu_operand1,
 			operand2  => alu_operand2,
 			result    => alu_result,
-			result64  => alu_result64,
+--			result64  => alu_result64,
 			operation => alu_operation,
 			zero      => alu_zero);
 
@@ -277,7 +277,7 @@ begin
 	-- pcu_pc_src wired in and section 
 	pcu_jump   <=  cu_jump; 
 	pcu_sign_imm  <= se_out_s32; 
-	pcu_instr  <=  instruction;
+	pcu_instr  <=  ins_index_a;
 	
 	--sign extend unit inputs 
 	se_in_s16  <= imm_a;   

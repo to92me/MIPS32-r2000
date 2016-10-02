@@ -59,16 +59,13 @@ begin  -- architecture Behavioral
     variable tmp : AluOp_t;
   begin  -- process
     wait for 2 ns;
-    acu_cu_operation <= alu_addiu;
+    acu_cu_operation <= alu_add;
     wait for 1 ns;
-    acu_cu_operation <= alu_xori;
+    acu_cu_operation <= alu_xor;
     wait for 1 ns;
-    acu_func         <= ADDU_fun_c;
+    acu_func         <= SUB_fun_c;
     acu_cu_operation <= alu_special1;
-
-
     wait for 1 ns;
-
     acu_cu_operation <= alu_special2;
     acu_func         <= MADD_fun_c;
 

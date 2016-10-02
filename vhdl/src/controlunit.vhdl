@@ -18,7 +18,7 @@
 --				  MUX-es in cpu.
 --
 -------------------------------------------------------------------------------
--- todo         : 
+-- todo         : TODO uraditi data configuration for J and BEQ 
 -------------------------------------------------------------------------------
 -- comments     : 
 -------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ begin
 		if (opcode = special1_c) or (opcode = special2_c) then
 			-- R type instruction
 			-- R type instructions are instructions that operate only with register 
-			register_destination <= '1';
+			register_destination <= '1'; -- because reg address to store data is in Rd filed ( 15 downto 11  of instruction ) ( reminder to me! )  
 			register_write       <= '1';
 			alu_source           <= '0';
 			memory_write         <= '0';
@@ -77,7 +77,7 @@ begin
 			mem_to_reg           <= '0';
 			branch               <= '0';
 			jump                 <= '0';
-		elsif (opcode = ADDI_op_c) or (opcode = ADDIU_op_c) or (opcode = SLTI_op_c) or (opcode = SLTIU_op_c) then
+		elsif (opcode = ADDI_op_c) or (opcode = ADDIU_op_c) or (opcode = SLTI_op_c) or (opcode = SLTIU_op_c) or (opcode = ANDI_op_c) or (opcode = ORI_op_c) or (opcode = XORI_op_c) then
 			-- other I type instructions 
 			-- I type of instructions uses one register and immediate from instruction 
 			register_destination <= '0';
@@ -87,11 +87,27 @@ begin
 			mem_to_reg           <= '0';
 			branch               <= '0';
 			jump                 <= '0';
+		elsif(opcode = BEQ_op_c) then 
+			register_destination <= '0';
+			register_write       <= '0';
+			alu_source           <= '0';
+			memory_write         <= '0';
+			mem_to_reg           <= '0';
+			branch               <= '1';
+			jump                 <= '0';
+		elsif(opcode = J_op_c) then 	
+			register_destination <= '0';
+			register_write       <= '0';
+			alu_source           <= '0';
+			memory_write         <= '0';
+			mem_to_reg           <= '0';
+			branch               <= '0';
+			jump                 <= '1';
 		else
 			-- TODO ostale su nam jos Jump instrukcije i podesiti data path i branch i za to podesiti data path 
 			-- za cega je ovo ? TODO 
-			register_destination <= '1';
-			register_write       <= '1';
+			register_destination <= '0';
+			register_write       <= '0';
 			alu_source           <= '0';
 			memory_write         <= '0';
 			mem_to_reg           <= '0';
@@ -109,25 +125,33 @@ begin
 			when ADDI_op_c  => alu_operation <= alu_add;
 			when ADDIU_op_c => alu_operation <= alu_addu;
 			-- redukovane alu instrukcije do ovoga TODO redukovati ostale 
-			when SLTI_op_c  => alu_operation <= alu_slti;
-			when SLTIU_op_c => alu_operation <= alu_sltiu;
-			when ANDI_op_c  => alu_operation <= alu_andi;
-			when ORI_op_c   => alu_operation <= alu_ori;
-			when LB_op_c    => alu_operation <= alu_lb;
-			when LBU_op_c   => alu_operation <= alu_lbu;
-			when LH_op_c    => alu_operation <= alu_lh;
-			when LHU_op_c   => alu_operation <= alu_lhu;
-			when LW_op_c    => alu_operation <= alu_lw;
-			when LL_op_c    => alu_operation <= alu_ll;
-			when LUI_op_c   => alu_operation <= alu_lui;
-			when LWL_op_c   => alu_operation <= alu_lwr;
-			when LWR_op_c   => alu_operation <= alu_lwr;
-			when PREF_op_c  => alu_operation <= alu_pref;
-			when SB_op_c    => alu_operation <= alu_sb;
-			when SH_op_c    => alu_operation <= alu_sh;
-			when SWR_op_c   => alu_operation <= alu_swr;
-			when SWL_op_c   => alu_operation <= alu_swl;
-			when SC_op_c    => alu_operation <= alu_sc;
+--			when SLTI_op_c  => alu_operation <= alu_slti;
+--			when SLTIU_op_c => alu_operation <= alu_sltiu;
+			when ANDI_op_c  => alu_operation <= alu_and;
+			when ORI_op_c   => alu_operation <= alu_or;
+			when XORI_op_c  => alu_operation <= alu_xor; 
+--			when LB_op_c    => alu_operation <= alu_lb;
+--			when LBU_op_c   => alu_operation <= alu_lbu;
+--			when LH_op_c    => alu_operation <= alu_lh;
+--			when LHU_op_c   => alu_operation <= alu_lhu;
+--			when LW_op_c    => alu_operation <= alu_lw;
+--			when LL_op_c    => alu_operation <= alu_ll;
+--			when LUI_op_c   => alu_operation <= alu_lui;
+--			when LWL_op_c   => alu_operation <= alu_lwr;
+--			when LWR_op_c   => alu_operation <= alu_lwr;
+--			when PREF_op_c  => alu_operation <= alu_pref;
+--			when SB_op_c    => alu_operation <= alu_sb;
+--			when SH_op_c    => alu_operation <= alu_sh;
+--			when SWR_op_c   => alu_operation <= alu_swr;
+--			when SWL_op_c   => alu_operation <= alu_swl;
+--			when SC_op_c    => alu_operation <= alu_sc;
+			
+			when SW_op_c  => alu_operation  <= alu_add;
+			when LW_op_c  => alu_operation  <= alu_add;
+			when BEQ_op_c => alu_operation  <= alu_nop;  
+				
+--			when 
+			
 			when others     => alu_operation <= alu_nop;
 		end case;
 

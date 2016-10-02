@@ -38,7 +38,7 @@ architecture RTL of PcCounterUnit_tb is
 			pc_src   : in  std_logic;
 			jump     : in  std_logic;
 			sign_imm : in  std32_st;
-			instr    : in  std32_st
+			instr    : in  std26_st
 		);
 	end component PcCounterUnit;
 
@@ -48,7 +48,7 @@ architecture RTL of PcCounterUnit_tb is
 	signal c_pc_src   : std_logic;
 	signal c_jump     : std_logic;
 	signal c_sign_imm : std32_st;
-	signal c_instr    : std32_st;
+	signal c_instr    : std26_st ;
 
 	signal rand_num : integer := 0;
 	--	signal pc_plus_4: std32_st; 
@@ -70,7 +70,7 @@ begin
 
 	--	c_instr    <= std32_zero_c;
 	--	c_sign_imm <= std32_zero_c;
-	c_instr    <= std32_one_c;
+	c_instr    <= "11111111111111111111111111";
 	c_sign_imm <= "00000000111100001111000011111111";
 
 	clk_generator : process is
@@ -146,15 +146,16 @@ begin
 		end if;
 
 		if (c_clk'event and c_clk = '1') then
+--			wait for 1 ns; 
 		    tmp <= pc_plus_4;
-		     check_jump <= pc_plus_4(31 downto 28) & (std28_st(unsigned(c_instr(25 downto 0)) sll 2));
+		     check_jump <= pc_plus_4(31 downto 28) & (std28_st(unsigned(c_instr) sll 2));
 			if (c_jump = '1') then
-				if (c_pc = pc_plus_4(31 downto 28) & (std28_st(unsigned(c_instr(25 downto 0)) sll 2))) then
+				if (c_pc = pc_plus_4(31 downto 28) & (std28_st(unsigned(c_instr) sll 2))) then
 					write(L, time'IMAGE(now));
 					write(L, string'("Jump OK!"));
 					writeline(output, L);
 				else
-				    check_jump <= pc_plus_4(31 downto 28) & (std28_st(unsigned(c_instr(25 downto 0)) sll 2)); 
+				    check_jump <= pc_plus_4(31 downto 28) & (std28_st(unsigned(c_instr) sll 2)); 
 					write(L, time'IMAGE(now)); 
 					write(L, string'("Jump ERROR!"));
 ----					write(L, std32_st(pc_plus_4(31 downto 28) & (std28_st(unsigned(c_instr(25 downto 0)) sll 2)))); 

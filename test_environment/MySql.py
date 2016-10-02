@@ -4,7 +4,7 @@ class Database():
     "MySql database class for connecting and manageing data"
     def __init__ (self):
         try:
-            self.db = MySQLdb.connect("192.168.0.0", "client", "tome", "mips_assembly")
+            self.db = MySQLdb.connect("192.168.0.1", "client", "tome", "mips_assembly")
             self.cur = self.db.cursor()
         except:
             print("could not connet to databse, check your connection to internet, \n if you have connection to internet than contact sql database maintaner ")

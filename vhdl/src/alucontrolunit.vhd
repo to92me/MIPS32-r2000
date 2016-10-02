@@ -45,15 +45,15 @@ architecture Behavioral of AluControlUnit is
 begin 
 	
 	
-  process (func, cu_operation) is
+  process (func) is
   begin  -- process
     case func is
-      when CLO_fun_c   => special2_v := alu_clo;
-      when CLZ_fun_c   => special2_v := alu_clz;
-      when MADD_fun_c  => special2_v := alu_madd;
-      when MADDU_fun_c => special2_v := alu_maddu;
-      when MSUB_fun_c  => special2_v := alu_msub;
-      when MSUBU_fun_c => special2_v := alu_msubu;
+--      when CLO_fun_c   => special2_v := alu_clo;
+--      when CLZ_fun_c   => special2_v := alu_clz;
+--      when MADD_fun_c  => special2_v := alu_madd;
+--      when MADDU_fun_c => special2_v := alu_maddu;
+--      when MSUB_fun_c  => special2_v := alu_msub;
+--      when MSUBU_fun_c => special2_v := alu_msubu;
       when MUL_fun_c   => special2_v := alu_mul;
       when others      => special2_v := alu_nop;
     end case;
@@ -64,8 +64,8 @@ begin
       when DIV_fun_c     => special1_v := alu_div;
       when DIVU_fun_c    => special1_v := alu_divu;
       when MULT_fun_c    => special1_v := alu_mult;
-      when SLT_fun_c     => special1_v := alu_slt;
-      when SLTU_fun_c    => special1_v := alu_sltu;
+--      when SLT_fun_c     => special1_v := alu_slt;
+--      when SLTU_fun_c    => special1_v := alu_sltu;
       when SUB_fun_c     => special1_v := alu_sub;
       when SUBU_fun_c    => special1_v := alu_subu;
       when AND_fun_c     => special1_v := alu_and;
@@ -73,24 +73,24 @@ begin
       when OR_fun_c      => special1_v := alu_or;
       when XOR_fun_c     => special1_v := alu_xor;
       when SLL_fun_c     => special1_v := alu_sll;
-      when SLLV_fun_c    => special1_v := alu_sllv;
-      when SRA_fun_c     => special1_v := alu_sra;
-      when SRAV_fun_c    => special1_v := alu_srav;
-      when SRL_fun_c     => special1_v := alu_srl;
-      when SRLV_fun_c    => special1_v := alu_srlv;
-      when SYNC_fun_c    => special1_v := alu_sync;
-      when SYSCALL_fun_c => special1_v := alu_syscall;
-      when MFHI_fun_c    => special1_v := alu_mfhi;
-      when MFLO_fun_c    => special1_v := alu_mflo;
-      when MOVN_fun_c    => special1_v := alu_movn;
-      when MOVZ_fun_c    => special1_v := alu_movz;
-      when MTHI_fun_c    => special1_v := alu_mthi;
-      when MTLO_fun_c    => special1_v := alu_mtlo;
+--      when SLLV_fun_c    => special1_v := alu_sllv;
+--      when SRA_fun_c     => special1_v := alu_sra;
+--      when SRAV_fun_c    => special1_v := alu_srav;
+--      when SRL_fun_c     => special1_v := alu_srl;
+--      when SRLV_fun_c    => special1_v := alu_srlv;
+--      when SYNC_fun_c    => special1_v := alu_sync;
+--      when SYSCALL_fun_c => special1_v := alu_syscall;
+--      when MFHI_fun_c    => special1_v := alu_mfhi;
+--      when MFLO_fun_c    => special1_v := alu_mflo;
+--      when MOVN_fun_c    => special1_v := alu_movn;
+--      when MOVZ_fun_c    => special1_v := alu_movz;
+--      when MTHI_fun_c    => special1_v := alu_mthi;
+--      when MTLO_fun_c    => special1_v := alu_mtlo;
       when others        => special1_v := alu_nop;
     end case;
   end process;
 
-  selecting_alu_operation : process (cu_operation) is
+  selecting_alu_operation : process (func,cu_operation) is
   begin  -- process  selecting_alu_operation
 
     if cu_operation = alu_special1 then
