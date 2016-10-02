@@ -81,10 +81,14 @@ begin
 --				result <= std_logic_vector(signed(operand1) * signed(operand2));
 --			when alu_multu =>
 --				result <= std_logic_vector(unsigned(operand1) * unsigned(operand2));
-			when alu_div =>
-				result <= std_logic_vector(signed(operand1) / signed(operand2));
-			when alu_divu =>
-				result <= std_logic_vector(unsigned(operand1) / unsigned(operand2));
+--			when alu_div =>
+--				result <= std_logic_vector(signed(operand1) / signed(operand2));
+--			when alu_divu =>
+--				result <= std_logic_vector(unsigned(operand1) / unsigned(operand2));
+-- T F___ 
+-- FATAL_ERROR: Vivado Simulator kernel has discovered an exceptional condition from which it cannot recover. Process will terminate. For technical support on this issue, please open a WebCase with this project attached at http://www.xilinx.com/support.
+-- Time: 40 ns  Iteration: 1  Process: /alu_tb/alu_c/line__51
+
 			when alu_sll  => 
 				result  <= std_logic_vector(unsigned(operand1) sll to_integer(signed(operand2))); 
 			when alu_srl  => 

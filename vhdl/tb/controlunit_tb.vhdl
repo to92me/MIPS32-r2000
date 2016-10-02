@@ -70,19 +70,12 @@ begin                                   -- architecture Behavioral
 			branch               => cu_branch,
 			jump				 => cu_jump);
 
-	-- process is
-	-- begin  -- process
-	--   cu_opcode <= special1_c;
-	--   wait for 1 ns;
-	--   cu_opcode <= ADDI_op_c;
-	--   wait for 1 ns;
-	--   cu_opcode <= LUI_op_c;
-	--   wait for 1 ns ;
-	--   cu_opcode <= SC_op_c;
-	--   wait for 1 ns ;
-	-- end process;
+
 	cu_opcode <= tmp_opcode;
 
+--------------------------------------------------------------
+-- DATA DRIVERS 
+--------------------------------------------------------------
 	opcode_driver : process is
 	begin
 		wait for wait_time;
@@ -110,9 +103,49 @@ begin                                   -- architecture Behavioral
 		wait for wait_time;
 		
 		
+		wait for wait_time;
+		tmp_opcode <= special1_c;
+		wait for wait_time;
+		tmp_opcode <= ADDI_op_c;
+		wait for wait_time;
+		tmp_opcode <= special2_c;
+		wait for wait_time;
+		tmp_opcode <= ADDIU_op_c;
+		wait for wait_time;
+		tmp_opcode <= LW_op_c;
+		wait for wait_time;
+		tmp_opcode <= SW_op_c;
+		wait for wait_time;
+		tmp_opcode <= J_op_c;
+		wait for wait_time;
+		tmp_opcode <= LW_op_c;
+		wait for wait_time;
+		tmp_opcode <= SW_op_c;
+		wait for wait_time;
+		tmp_opcode <= LW_op_c;
+		wait for wait_time;
+		tmp_opcode <= SW_op_c;
+		wait for wait_time;
+		tmp_opcode <= LW_op_c;
+		wait for wait_time;
+		tmp_opcode <= SW_op_c;
+		wait for wait_time;
+		tmp_opcode <= LW_op_c;
+		wait for wait_time;
+		tmp_opcode <= SW_op_c;
+		wait for wait_time;
+		tmp_opcode <= LW_op_c;
+		wait for wait_time;
+		tmp_opcode <= SW_op_c;
+		
 		
 	end process opcode_driver;
 
+--------------------------------------------------------------
+-- DATA CHECKERS 
+--------------------------------------------------------------
+-- Data path configuration checker 
+--------------------------------------------------------------
 	cu_data_paht_configuraton_checker : process (cu_alu_source, cu_branch, cu_mem_to_reg, cu_memory_write, cu_register_destination, cu_register_write) is 
 	begin
 		if(tmp_opcode = special1_c) or (tmp_opcode = special2_c) then 
@@ -214,6 +247,9 @@ begin                                   -- architecture Behavioral
 		end if; 
 	end process cu_data_paht_configuraton_checker;
 	
+--------------------------------------------------------------
+-- Alu operation checker 
+--------------------------------------------------------------
 	alu_operation_checker : process (cu_alu_operation) is
 	begin
 	case tmp_opcode is 

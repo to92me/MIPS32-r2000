@@ -44,27 +44,8 @@ architecture RTL of rom32 is
 	alias rom30_addr is addr(18 downto 0); -- this is module of 512Mb 
 
 begin
-	-- 	00000000 00100111 00000000 00100000 add $0 $1 $7 
---	   	00000000 00100111 00101000 00100000 add $5 $1 $7 
-
---	   	00100000 01000001 00000000 00001100 	2041000c 	addi $1 $2 12
--- 	   	00100000 01000111 00000000 00001101		2047000d 	addi $7 $2 13
---		00000000 00100111 00101000 00100000		00272820 	add  $5 $1 $7 
---  	10101100 00000101 00000000 00000000		ac050000 	sw $5 0($0)
---		10001100 00000110 00000000 00000000		8c060000	lw $6 0($0)
-
---	rom_0(3)  <=  "00000000";
---	rom_0(2)  <=  "00100111";
---	rom_0(1)  <=  "00000000";
---	rom_0(0)  <=  "00100000";
 	
 	data <= rom_0(TO_INTEGER(unsigned(rom30_addr) + 3)) & rom_0(TO_INTEGER(unsigned(rom30_addr) + 2)) & rom_0(TO_INTEGER(unsigned(rom30_addr) + 1)) & rom_0(TO_INTEGER(unsigned(rom30_addr)));
-
-	--	with rom30_cs select data <=
-	--		rom_0(TO_INTEGER(unsigned(addr))) when "00",
-	--		rom_1(TO_INTEGER(unsigned(addr))) when "01",
-	--		rom_2(TO_INTEGER(unsigned(addr))) when "10",
-	--		rom_3(TO_INTEGER(unsigned(addr))) when others;
 
 	reset_values : process(rst) is
 		variable i, j : integer;

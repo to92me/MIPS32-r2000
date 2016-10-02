@@ -18,7 +18,7 @@
 --				  MUX-es in cpu.
 --
 -------------------------------------------------------------------------------
--- todo         : TODO uraditi data configuration for J and BEQ 
+-- todo         : 
 -------------------------------------------------------------------------------
 -- comments     : 
 -------------------------------------------------------------------------------
@@ -43,6 +43,7 @@ entity ControlUnit is
 end entity ControlUnit;
 
 architecture Behavioral of ControlUnit is
+	
 begin
 	mux_select : process(opcode) is
 	begin
@@ -57,7 +58,7 @@ begin
 			branch               <= '0';
 			jump                 <= '0';
 
-		elsif (opcode = LB_op_c) or (opcode = LBU_op_c) or (opcode = LH_op_c) or (opcode = LHU_op_c) or (opcode = LW_op_c) or (opcode = LL_op_c) or (opcode = LUI_op_c) or (opcode = LWL_op_c) or (opcode = LW_op_c) then
+		elsif (opcode = LW_op_c) then
 			-- Load instructions ( I type ) 
 			-- Load instructions are special variant of I type of instructions. They read some data from RAM and store them in some register 
 			register_destination <= '0'; -- 
@@ -67,7 +68,7 @@ begin
 			mem_to_reg           <= '1';
 			branch               <= '0';
 			jump                 <= '0';
-		elsif (opcode = SB_op_c) or (opcode = SH_op_c) or (opcode = SW_op_c) or (opcode = SWL_op_c) or (opcode = SWR_op_c) or (opcode = SC_op_c) then
+		elsif (opcode = SW_op_c) then
 			-- Store instructions ( I type ) 
 			-- Store instructions are special variant of I type of instructions. They write to RAM some data
 			register_destination <= '0';
@@ -77,7 +78,7 @@ begin
 			mem_to_reg           <= '0';
 			branch               <= '0';
 			jump                 <= '0';
-		elsif (opcode = ADDI_op_c) or (opcode = ADDIU_op_c) or (opcode = SLTI_op_c) or (opcode = SLTIU_op_c) or (opcode = ANDI_op_c) or (opcode = ORI_op_c) or (opcode = XORI_op_c) then
+		elsif (opcode = ADDI_op_c) or (opcode = ADDIU_op_c) or (opcode = ANDI_op_c) or (opcode = ORI_op_c) or (opcode = XORI_op_c) then
 			-- other I type instructions 
 			-- I type of instructions uses one register and immediate from instruction 
 			register_destination <= '0';
@@ -104,8 +105,7 @@ begin
 			branch               <= '0';
 			jump                 <= '1';
 		else
-			-- TODO ostale su nam jos Jump instrukcije i podesiti data path i branch i za to podesiti data path 
-			-- za cega je ovo ? TODO 
+			-- za cega je ovo ?
 			register_destination <= '0';
 			register_write       <= '0';
 			alu_source           <= '0';
@@ -113,50 +113,40 @@ begin
 			mem_to_reg           <= '0';
 			branch               <= '0';
 			jump                 <= '0';
+--			report "CPU-CU NaI"; 
 		end if;
 
 	end process mux_select;
 
-	opcide_decode : process(opcode) is
-	begin                               -- process opcide_decode
-		case opcode is
-			when special1_c => alu_operation <= alu_special1;
-			when special2_c => alu_operation <= alu_special2;
-			when ADDI_op_c  => alu_operation <= alu_add;
-			when ADDIU_op_c => alu_operation <= alu_addu;
-			-- redukovane alu instrukcije do ovoga TODO redukovati ostale 
---			when SLTI_op_c  => alu_operation <= alu_slti;
---			when SLTIU_op_c => alu_operation <= alu_sltiu;
-			when ANDI_op_c  => alu_operation <= alu_and;
-			when ORI_op_c   => alu_operation <= alu_or;
-			when XORI_op_c  => alu_operation <= alu_xor; 
---			when LB_op_c    => alu_operation <= alu_lb;
---			when LBU_op_c   => alu_operation <= alu_lbu;
---			when LH_op_c    => alu_operation <= alu_lh;
---			when LHU_op_c   => alu_operation <= alu_lhu;
---			when LW_op_c    => alu_operation <= alu_lw;
---			when LL_op_c    => alu_operation <= alu_ll;
---			when LUI_op_c   => alu_operation <= alu_lui;
---			when LWL_op_c   => alu_operation <= alu_lwr;
---			when LWR_op_c   => alu_operation <= alu_lwr;
---			when PREF_op_c  => alu_operation <= alu_pref;
---			when SB_op_c    => alu_operation <= alu_sb;
---			when SH_op_c    => alu_operation <= alu_sh;
---			when SWR_op_c   => alu_operation <= alu_swr;
---			when SWL_op_c   => alu_operation <= alu_swl;
---			when SC_op_c    => alu_operation <= alu_sc;
-			
-			when SW_op_c  => alu_operation  <= alu_add;
-			when LW_op_c  => alu_operation  <= alu_add;
-			when BEQ_op_c => alu_operation  <= alu_nop;  
-				
---			when 
-			
-			when others     => alu_operation <= alu_nop;
-		end case;
-
-	end process opcide_decode;
-
-
+--	opcide_decode : process(opcode) is
+--	begin                               -- process opcide_decode
+--		case opcode is
+--			when special1_c => alu_operation <= alu_special1;
+--			when special2_c => alu_operation <= alu_special2;
+--			when ADDI_op_c  => alu_operation <= alu_add;
+--			when ADDIU_op_c => alu_operation <= alu_addu;
+--			when ANDI_op_c  => alu_operation <= alu_and;
+--			when ORI_op_c   => alu_operation <= alu_or;
+--			when XORI_op_c  => alu_operation <= alu_xor; 	
+--			when SW_op_c  => alu_operation  <= alu_add;
+--			when LW_op_c  => alu_operation  <= alu_add;
+--			when BEQ_op_c => alu_operation  <= alu_nop;  	
+--			when others     => alu_operation <= alu_nop;
+--		end case;
+--	end process opcide_decode;
+	
+	with opcode select alu_operation  <= 
+		alu_special1 when special1_c,
+		alu_special2 when special2_c,
+		alu_add when ADDI_op_c,
+		alu_addu when ADDIU_op_c,
+		alu_and when ANDI_op_c, 
+		alu_or when ORI_op_c,
+		alu_xor when XORI_op_c,
+		alu_add when SW_op_c,
+		alu_add when LW_op_c,
+		alu_nop when BEQ_op_c,
+		alu_nop when J_op_c,
+		alu_nop when others;  
 
 end architecture Behavioral;
