@@ -43,80 +43,123 @@ entity ControlUnit is
 end entity ControlUnit;
 
 architecture Behavioral of ControlUnit is
+	constant data_path_conf_pack_R_type : std_logic_vector(6 downto 0) 		:= "1100000"; 
+	constant data_path_conf_pack_Load   : std_logic_vector(6 downto 0) 		:= "0110100"; 
+	constant data_path_conf_pack_Store  : std_logic_vector(6 downto 0) 		:= "0011000";
+	constant data_path_conf_pack_othI_type: std_logic_vector (6 downto 0)	:= "0110000"; 
+	constant data_path_conf_pack_Branch : std_logic_vector(6 downto 0) 		:= "0000010";
+	constant data_path_conf_pack_Jump : std_logic_vector(6 downto 0) 		:= "0000001"; 
+	constant data_path_conf_pack_other : std_logic_vector(6 downto 0)		:= "0000000"; 
+	signal data_path_conf :std_logic_vector(6 downto 0); 
 	
+	alias data_path_conf_register_destination is data_path_conf(6); 
+	alias data_path_conf_register_write is data_path_conf(5); 
+	alias data_path_conf_alu_source is data_path_conf(4); 
+	alias data_path_conf_memory_write is data_path_conf(3);
+	alias data_path_conf_mem_to_reg is data_path_conf(2);  
+	alias data_path_conf_branch is data_path_conf(1); 
+	alias data_path_conf_jump is data_path_conf(0); 
 begin
-	mux_select : process(opcode) is
-	begin
-		if (opcode = special1_c) or (opcode = special2_c) then
-			-- R type instruction
-			-- R type instructions are instructions that operate only with register 
-			register_destination <= '1'; -- because reg address to store data is in Rd filed ( 15 downto 11  of instruction ) ( reminder to me! )  
-			register_write       <= '1';
-			alu_source           <= '0';
-			memory_write         <= '0';
-			mem_to_reg           <= '0';
-			branch               <= '0';
-			jump                 <= '0';
-
-		elsif (opcode = LW_op_c) then
-			-- Load instructions ( I type ) 
-			-- Load instructions are special variant of I type of instructions. They read some data from RAM and store them in some register 
-			register_destination <= '0'; -- 
-			register_write       <= '1';
-			alu_source           <= '1';
-			memory_write         <= '0';
-			mem_to_reg           <= '1';
-			branch               <= '0';
-			jump                 <= '0';
-		elsif (opcode = SW_op_c) then
-			-- Store instructions ( I type ) 
-			-- Store instructions are special variant of I type of instructions. They write to RAM some data
-			register_destination <= '0';
-			register_write       <= '0';
-			alu_source           <= '1';
-			memory_write         <= '1';
-			mem_to_reg           <= '0';
-			branch               <= '0';
-			jump                 <= '0';
-		elsif (opcode = ADDI_op_c) or (opcode = ADDIU_op_c) or (opcode = ANDI_op_c) or (opcode = ORI_op_c) or (opcode = XORI_op_c) then
-			-- other I type instructions 
-			-- I type of instructions uses one register and immediate from instruction 
-			register_destination <= '0';
-			register_write       <= '1';
-			alu_source           <= '1';
-			memory_write         <= '0';
-			mem_to_reg           <= '0';
-			branch               <= '0';
-			jump                 <= '0';
-		elsif(opcode = BEQ_op_c) then 
-			register_destination <= '0';
-			register_write       <= '0';
-			alu_source           <= '0';
-			memory_write         <= '0';
-			mem_to_reg           <= '0';
-			branch               <= '1';
-			jump                 <= '0';
-		elsif(opcode = J_op_c) then 	
-			register_destination <= '0';
-			register_write       <= '0';
-			alu_source           <= '0';
-			memory_write         <= '0';
-			mem_to_reg           <= '0';
-			branch               <= '0';
-			jump                 <= '1';
-		else
-			-- za cega je ovo ?
-			register_destination <= '0';
-			register_write       <= '0';
-			alu_source           <= '0';
-			memory_write         <= '0';
-			mem_to_reg           <= '0';
-			branch               <= '0';
-			jump                 <= '0';
---			report "CPU-CU NaI"; 
-		end if;
-
-	end process mux_select;
+	
+	register_destination  <=  data_path_conf_register_destination; 
+	register_write  <= data_path_conf_register_write;
+	alu_source  <= data_path_conf_alu_source;
+	memory_write  <=  data_path_conf_memory_write; 
+	mem_to_reg  <=  data_path_conf_mem_to_reg;
+	branch  <= data_path_conf_branch;
+	jump  <= data_path_conf_jump; 
+	
+	with opcode select data_path_conf   <= 
+		data_path_conf_pack_R_type when special1_c,
+		data_path_conf_pack_R_type when special2_c,
+		
+		data_path_conf_pack_Load when LW_op_c,
+		data_path_conf_pack_Store when SW_op_c, 
+		
+--		data_path_conf_pack_othI_type when (ADDI_op_c or ADDIU_op_c or ANDI_op_c or ORI_op_c or XORI_op_c),
+		data_path_conf_pack_othI_type when ADDI_op_c,
+		data_path_conf_pack_othI_type when ADDIU_op_c,
+		data_path_conf_pack_othI_type when ANDI_op_c,
+		data_path_conf_pack_othI_type when ORI_op_c,
+		data_path_conf_pack_othI_type when XORI_op_c, 
+		
+		data_path_conf_pack_Branch when BEQ_op_c, 
+		data_path_conf_pack_Jump when J_op_c,
+		data_path_conf_pack_other when others; 
+	
+	
+--	mux_select : process(opcode) is
+--	begin
+--		if (opcode = special1_c) or (opcode = special2_c) then
+--			-- R type instruction
+--			-- R type instructions are instructions that operate only with register 
+--			register_destination <= '1'; -- because reg address to store data is in Rd filed ( 15 downto 11  of instruction ) ( reminder to me! )  
+--			register_write       <= '1';
+--			alu_source           <= '0';
+--			memory_write         <= '0';
+--			mem_to_reg           <= '0';
+--			branch               <= '0';
+--			jump                 <= '0';
+--
+--		elsif (opcode = LW_op_c) then
+--			-- Load instructions ( I type ) 
+--			-- Load instructions are special variant of I type of instructions. They read some data from RAM and store them in some register 
+--			register_destination <= '0'; -- 
+--			register_write       <= '1';
+--			alu_source           <= '1';
+--			memory_write         <= '0';
+--			mem_to_reg           <= '1';
+--			branch               <= '0';
+--			jump                 <= '0';
+--		elsif (opcode = SW_op_c) then
+--			-- Store instructions ( I type ) 
+--			-- Store instructions are special variant of I type of instructions. They write to RAM some data
+--			register_destination <= '0';
+--			register_write       <= '0';
+--			alu_source           <= '1';
+--			memory_write         <= '1';
+--			mem_to_reg           <= '0';
+--			branch               <= '0';
+--			jump                 <= '0';
+--		elsif (opcode = ADDI_op_c) or (opcode = ADDIU_op_c) or (opcode = ANDI_op_c) or (opcode = ORI_op_c) or (opcode = XORI_op_c) then
+--			-- other I type instructions 
+--			-- I type of instructions uses one register and immediate from instruction 
+--			register_destination <= '0';
+--			register_write       <= '1';
+--			alu_source           <= '1';
+--			memory_write         <= '0';
+--			mem_to_reg           <= '0';
+--			branch               <= '0';
+--			jump                 <= '0';
+--		elsif(opcode = BEQ_op_c) then 
+--			register_destination <= '0';
+--			register_write       <= '0';
+--			alu_source           <= '0';
+--			memory_write         <= '0';
+--			mem_to_reg           <= '0';
+--			branch               <= '1';
+--			jump                 <= '0';
+--		elsif(opcode = J_op_c) then 	
+--			register_destination <= '0';
+--			register_write       <= '0';
+--			alu_source           <= '0';
+--			memory_write         <= '0';
+--			mem_to_reg           <= '0';
+--			branch               <= '0';
+--			jump                 <= '1';
+--		else
+--			-- za cega je ovo ?
+--			register_destination <= '0';
+--			register_write       <= '0';
+--			alu_source           <= '0';
+--			memory_write         <= '0';
+--			mem_to_reg           <= '0';
+--			branch               <= '0';
+--			jump                 <= '0';
+----			report "CPU-CU NaI"; 
+--		end if;
+--
+--	end process mux_select;
 
 --	opcide_decode : process(opcode) is
 --	begin                               -- process opcide_decode
