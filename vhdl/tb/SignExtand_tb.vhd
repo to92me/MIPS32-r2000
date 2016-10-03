@@ -45,7 +45,10 @@ begin
 			in_s16  => se_in_s16,
 			out_s32 => se_out_s32
 		);
-
+	
+	--------------------------------------------------------------
+	-- DATA DRIVERS & CHECKERS
+	--------------------------------------------------------------
 	input_generator : process is
 		variable i   : integer;
 		variable tmp : std_logic;

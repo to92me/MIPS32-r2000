@@ -27,18 +27,18 @@ use work.Definitions_pkg.all;
 
 entity alu is
 	port(
-		operand1  : in  std32_st;
-		operand2  : in  std32_st;
-		operation : in  AluOp_t;
-		result    : out std32_st;
-		--		result64  : out std32_st;
-		zero      : out std_logic
+		operand1  : in  std32_st;		-- operand1 - got from registers 
+		operand2  : in  std32_st;		-- operand2 - got from AluSource MUX (registers or immediate from instruction)
+		operation : in  AluOp_t;		-- operation - this operation ALU should execute 
+		result    : out std32_st;		-- result from operation 
+		zero      : out std_logic		-- zero - signal for branch instructions (if operand1 == operand2 set zero to 1) 
 	);
 
 end entity alu;
 
 architecture Behavioral of alu is
 begin
+	-- if operand1 and operand2 are equal zero is '1' 
 	zero_result : process(operand1, operand2, operation)
 	begin
 		if (operand1 = operand2) then
@@ -47,7 +47,8 @@ begin
 			zero <= '0';
 		end if;
 	end process zero_result;
-
+	
+	-- main process of ALU where all operations are executed 
 	process(operand1, operand2, operation) is
 		variable oper_us1 : std32_st;
 		variable oper_us2 : std32_st;
@@ -76,19 +77,6 @@ begin
 				result <= std_logic_vector(signed(operand1) - signed(operand2));
 			when alu_subu =>
 				result <= std_logic_vector(unsigned(operand1) - unsigned(operand2));
--- FIXME this is not valid because multiplication stores result in 64bit register 
---			when alu_mult =>
---				result <= std_logic_vector(signed(operand1) * signed(operand2));
---			when alu_multu =>
---				result <= std_logic_vector(unsigned(operand1) * unsigned(operand2));
---			when alu_div =>
---				result <= std_logic_vector(signed(operand1) / signed(operand2));
---			when alu_divu =>
---				result <= std_logic_vector(unsigned(operand1) / unsigned(operand2));
--- T F___ 
--- FATAL_ERROR: Vivado Simulator kernel has discovered an exceptional condition from which it cannot recover. Process will terminate. For technical support on this issue, please open a WebCase with this project attached at http://www.xilinx.com/support.
--- Time: 40 ns  Iteration: 1  Process: /alu_tb/alu_c/line__51
-
 			when alu_sll  => 
 				result  <= std_logic_vector(unsigned(operand1) sll to_integer(signed(operand2))); 
 			when alu_srl  => 
@@ -100,8 +88,7 @@ begin
 			
 			when others =>
 				result <= std32_zero_c;
-				write(L, string'("alu error, no such instruction"));
-				writeline(output, L);
+				report "ALU ERROR - ALU instruction is not implemented ";
 		end case;
 	end process;
 

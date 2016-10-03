@@ -72,16 +72,22 @@ begin                                   -- architecture behavioral
 			wrData  => reg_wrData,
 			wr      => reg_wr);
 
-	-- purpose: generating clock signal
-	-- type   : combinational 
+	--------------------------------------------------------------
+	-- DATA DRIVERS 
+	--------------------------------------------------------------
+	-- clock driver 
+	--------------------------------------------------------------	
 	clk_generator : process is
-	begin                               -- process clk_process
+	begin                             
 		clk <= '0';
 		wait for clk_period / 2;
 		clk <= '1';
 		wait for clk_period / 2;
 	end process clk_generator;
 
+	--------------------------------------------------------------
+	-- reset driver 
+	--------------------------------------------------------------	
 	rst_generator : process is
 		variable i : integer;
 	begin
@@ -93,6 +99,9 @@ begin                                   -- architecture behavioral
 		wait;
 	end process rst_generator;
 
+	--------------------------------------------------------------
+	-- write enable driver 
+	--------------------------------------------------------------	
 	wr_generator : process is
 	begin
 		reg_wr <= '0';
@@ -108,6 +117,9 @@ begin                                   -- architecture behavioral
 		reg_wr <= '1';
 	end process wr_generator;
 
+	--------------------------------------------------------------
+	-- data driver 
+	--------------------------------------------------------------	
 	register_data_generator : process is
 		--		variable tmp : std_logic_vector(31 downto 0); -- for results;
 		--		variable L : line;
@@ -121,6 +133,11 @@ begin                                   -- architecture behavioral
 		end loop;
 	end process register_data_generator;
 
+	--------------------------------------------------------------
+	-- DATA CHECKERS 
+	--------------------------------------------------------------
+	-- data storing in internal memory for checking 
+	--------------------------------------------------------------
 	register_data_storer : process(clk,rst) is
 	begin
 		if rst = '1' then               -- asynchrony reset active at high
@@ -133,7 +150,9 @@ begin                                   -- architecture behavioral
 		end if;
 	end process register_data_storer;
 
-
+	--------------------------------------------------------------
+	-- DUT data out checker 
+	--------------------------------------------------------------
 	data_checker : process is
 		variable k : integer;
 	begin

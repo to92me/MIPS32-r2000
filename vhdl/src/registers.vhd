@@ -46,9 +46,11 @@ architecture Behavioral of registers is
 	signal registers_v : register_t_arr;
 
 begin
+	--reading from registers is asynchronous operation
 	rdData1 <= registers_v(TO_INTEGER(unsigned(rdAddr1)));
 	rdData2 <= registers_v(TO_INTEGER(unsigned(rdAddr2)));
-
+	
+	-- writing to register synchronous operation 
 	reg_process : process(clk, rst) is
 	begin
 		if rst = '1' then               -- asynchrony reset active at high

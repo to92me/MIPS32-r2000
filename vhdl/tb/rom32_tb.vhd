@@ -44,7 +44,12 @@ begin
 			addr => rom32_addr,
 			data => rom32_data
 		);
-
+	
+	--------------------------------------------------------------
+	-- DATA DRIVERS 
+	--------------------------------------------------------------
+	-- address driver 
+	--------------------------------------------------------------	
 	address_generator : process is
 		variable iterator : unsigned(18 downto 0) := to_unsigned(0, 19);
 	begin
@@ -56,7 +61,10 @@ begin
 			exit when (iterator = 2 ** 19 - 5);
 		end loop;
 	end process address_generator;
-
+	
+	--------------------------------------------------------------
+	-- reset driver 
+	--------------------------------------------------------------	
 	reset_generator : process is
 	begin
 		rom32_rst  <= '0';

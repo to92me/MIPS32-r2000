@@ -27,7 +27,7 @@ use work.definitions_pkg.all;
 
 entity SignExtand is
 	port(
-		in_s16  : in  std16_st;
+		in_s16  : in  std16_st; 
 		out_s32 : out std32_st
 	);
 end entity SignExtand;

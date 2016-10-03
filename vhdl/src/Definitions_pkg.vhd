@@ -36,9 +36,9 @@ package Definitions_pkg is
 	subtype std5_st is std_logic_vector(4 downto 0); -- address
 	subtype std10_st is std_logic_vector(9 downto 0); -- rom address
 	subtype std25_st is std_logic_vector(24 downto 0); -- for instruction-index
-	subtype std26_st is std_logic_vector(25 downto 0); --
-	subtype std64_st is std_logic_vector(63 downto 0); -- for dual result in alu
-	subtype std28_st is std_logic_vector(27 downto 0);
+	subtype std26_st is std_logic_vector(25 downto 0); -- address for jump instruction 
+	subtype std64_st is std_logic_vector(63 downto 0); -- for dual result in ALU
+	subtype std28_st is std_logic_vector(27 downto 0); 
 
 	-----------------------------------------------------------------------------
 
@@ -59,12 +59,11 @@ package Definitions_pkg is
 	-- ######################### INSTRUCTIONS OPCODE ###########################
 	-----------------------------------------------------------------------------
 	-- ARITHMETIC INSTRUCTIONS
-	-- op code for instructions defined as _fun_c  is 0x0 
 	-----------------------------------------------------------------------------
 	constant special1_c : std6_st := "000000"; -- special opcode 1
 	constant special2_c : std6_st := "011100"; -- special opcode 2
 
-	-- special 1 op code = 000000 
+	-- special 1, opcode = 000000 
 	constant ADD_fun_c   : std6_st := "100000"; -- Add Word
 	constant ADDU_fun_c  : std6_st := "100001"; -- Add Unsigned Word
 	constant DIV_fun_c   : std6_st := "011010"; -- Divide Word
@@ -77,7 +76,7 @@ package Definitions_pkg is
 	constant SUBU_fun_c  : std6_st := "100011"; -- Subtract Unsigned Word
 
 
-	-- special 2 op code = 011100
+	-- special 2, opcode = 011100
 	constant CLO_fun_c   : std6_st := "100001"; -- Count Leading Ones in Word
 	constant CLZ_fun_c   : std6_st := "100000"; -- Count Leading Zeros in Word
 	constant MADD_fun_c  : std6_st := "000000"; -- Multiply and Add Word to Hi,Lo
@@ -87,7 +86,7 @@ package Definitions_pkg is
 	constant MUL_fun_c   : std6_st := "000010"; -- Multiply Word to GPR
 
 
-	-- standalone opcodes 
+	-- stand-alone opcodes 
 	constant ADDI_op_c  : std6_st := "001000"; -- Add Immediate Word
 	constant ADDIU_op_c : std6_st := "001001"; -- Add Immediate Unsigned Word
 	constant SLTI_op_c  : std6_st := "001010"; -- Set on Less Than Immediate
@@ -97,13 +96,13 @@ package Definitions_pkg is
 	-----------------------------------------------------------------------------
 	--LOGICAL INSTRUCTIONS
 	-----------------------------------------------------------------------------
-	--special 1 op code 00000 
+	--special 1, opcode 00000 
 	constant AND_fun_c : std6_st := "100100"; -- And
 	constant NOR_fun_c : std6_st := "100111"; -- Nor
 	constant OR_fun_c  : std6_st := "100101"; -- Or
 	constant XOR_fun_c : std6_st := "100110"; -- Exclusive OR
 
-	--standalone 
+	--stand-alone 
 	constant ANDI_op_c : std6_st := "001100"; -- And Immediate
 	constant ORI_op_c  : std6_st := "001101"; -- Or Immediate
 	constant XORI_op_c : std6_st := "001110"; -- Exclusive OR Immediate
@@ -123,7 +122,7 @@ package Definitions_pkg is
 	-- LOAD AND STORE INSTRUCTIONS
 	-------------------------------------------------------------------------------
 
-	--standalone opcodes
+	--stand-alone opcodes
 	constant LB_op_c   : std6_st := "100000"; -- Load Byte
 	constant LBU_op_c  : std6_st := "100100"; -- Load Byte Unsigned
 	constant LH_op_c   : std6_st := "100001"; -- Load Halfword
