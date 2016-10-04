@@ -64,8 +64,6 @@ with func select special_op_1  <=
 	alu_nor when NOR_fun_c,
 	alu_or when OR_fun_c,
 	alu_xor when XOR_fun_c,
---	alu_sll when SLL_fun_c,
---	alu_srl when SRL_fun_c,
 	alu_sllv when SLLV_fun_c,
 	alu_srlv when SRLV_fun_c,
 	alu_slt when SLT_fun_c,

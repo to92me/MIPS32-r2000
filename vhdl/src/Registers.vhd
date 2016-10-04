@@ -47,9 +47,14 @@ architecture Behavioral of Registers is
 
 begin
 	--reading from registers is asynchronous operation
-	rdData1 <= registers_v(TO_INTEGER(unsigned(rdAddr1)));
-	rdData2 <= registers_v(TO_INTEGER(unsigned(rdAddr2)));
-	
+		rdData1 <= registers_v(TO_INTEGER(unsigned(rdAddr1)));
+		rdData2 <= registers_v(TO_INTEGER(unsigned(rdAddr2)));
+--	read : process(rdAddr1, rdAddr2) is
+--	begin
+--		rdData1 <= registers_v(TO_INTEGER(unsigned(rdAddr1)));
+--		rdData2 <= registers_v(TO_INTEGER(unsigned(rdAddr2)));
+--	end process read;
+
 	-- writing to register synchronous operation 
 	reg_process : process(clk, rst) is
 	begin
@@ -64,3 +69,10 @@ begin
 		end if;
 	end process reg_process;
 end architecture Behavioral;
+
+
+
+
+
+
+

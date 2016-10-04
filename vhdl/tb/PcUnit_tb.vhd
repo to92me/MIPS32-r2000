@@ -137,7 +137,7 @@ begin
 			tmp       <= pc_plus_4;
 		end if;
 
-		if (c_clk'event and c_clk = '1') then
+		if (rising_edge(c_clk)) then
 			--			wait for 1 ns; 
 			tmp        <= pc_plus_4;
 			check_jump <= pc_plus_4(31 downto 28) & (std28_st(unsigned(c_instr) sll 2));

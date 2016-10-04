@@ -50,6 +50,7 @@ architecture Behavioral of Alu_tb is
 	constant seed_array    : integer := 3;
 	constant seed_operand1 : integer := 2;
 	constant seed_operand2 : integer := 3;
+	constant no_alu_operations :integer :=  13; 
 
 begin                                   -- architecture Behavioral
 
@@ -101,16 +102,16 @@ begin                                   -- architecture Behavioral
 	-- operation driver 
 	--------------------------------------------------------------
 	operation_driver : process is
-		type AluOpA_t is array (0 to 9) of AluOp_t;
-		variable operation_a : AluOpA_t := (alu_or, alu_nor, alu_xor, alu_and, alu_add, alu_addu, alu_sub, alu_subu, alu_sll, alu_srl);
+		type AluOpA_t is array (0 to no_alu_operations-1) of AluOp_t;
+		variable operation_a : AluOpA_t := (alu_or, alu_nor, alu_xor, alu_and, alu_add, alu_addu, alu_sub, alu_subu, alu_sllv, alu_srlv, alu_slt, alu_sltu, alu_slt);
 		variable iterator    : integer;
 	begin
 		iterator := 1;
 		for i in 0 to 100 loop
 			alu_operation <= operation_a(iterator);
 			iterator      := iterator + seed_array;
-			if iterator > 9 then
-				iterator := iterator - 10;
+			if iterator > no_alu_operations-1 then
+				iterator := iterator - no_alu_operations;
 			end if;
 			wait for wait_time;
 		end loop;

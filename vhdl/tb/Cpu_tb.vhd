@@ -106,9 +106,9 @@ begin
 			addr   => cpu_mem_addr,
 			wrData => cpu_mem_wrData
 		);
-	
-	debug  <=  '0'; 
-	
+
+	debug <= '0';
+
 	--------------------------------------------------------------
 	-- DATA DRIVERS 
 	--------------------------------------------------------------
@@ -121,19 +121,35 @@ begin
 		clk <= '1';
 		wait for 1 ns;
 	end process clock_generator;
-	
+
 	--------------------------------------------------------------
 	-- reset  driver 
 	--------------------------------------------------------------	
 	rst_generator : process is
 	begin
 		rst <= '0';
-		wait for 0.5ns; 
-		rst  <= '1';
-		wait for 1ns; 
-		rst  <= '0';
-		wait; 
+		wait for 1 ns;
+		rst <= '1';
+		wait for 1 ns;
+		rst <= '0';
+		wait;
 	end process rst_generator;
+
+	--------------------------------------------------------------
+	-- checker  
+	--------------------------------------------------------------	
+	process(clk)
+	begin
+		if (rising_edge(clk) and cpu_mem_we = '1') then
+			if (to_integer(unsigned(cpu_mem_addr)) = 84) then
+				if (to_integer(unsigned(cpu_mem_wrData)) = 7) then
+					report "Simulation succeeded";
+				else
+					report "Simulation failed";
+				end if;
+			end if;
+		end if;
+	end process;
 
 end architecture Behavioral; 
 	   

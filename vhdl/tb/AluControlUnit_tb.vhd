@@ -46,8 +46,8 @@ architecture Behavioral of AluControlUnit_tb is
 	constant seed_special_1 : integer := 5;
 	constant seed_special_2 : integer := 1;
 
-	constant no_alu_operations      : integer := 13;
-	constant no_special_functions_1 : integer := 13;
+	constant no_alu_operations      : integer := 15;
+	constant no_special_functions_1 : integer := 15;
 	constant no_special_functions_2 : integer := 2;
 
 begin
@@ -66,19 +66,21 @@ begin
 	cu_operation_driver : process is
 		type AluOpA_t is array (0 to no_alu_operations - 1) of AluOp_t;
 		type FuncA is array (integer range <>) of std6_st;
-		variable operation_a        : AluOpA_t := (alu_special1, alu_special2, alu_or, alu_nor, alu_xor, alu_and, alu_add, alu_addu, alu_sub, alu_subu, alu_sll, alu_srl, alu_madd);
+		variable operation_a        : AluOpA_t := (alu_special1, alu_special2, alu_or, alu_nor, alu_xor, alu_and, alu_add, alu_addu, alu_sub, alu_subu, alu_sllv, alu_srlv, alu_madd,alu_slt, alu_sltu);
 		variable iterator_alu_op    : integer;
 		variable iterator_special_1 : integer;
 		variable iterator_special_2 : integer;
 
 		variable functions_special1 : FuncA(0 to no_special_functions_1 - 1) := (ADD_fun_c, ADDU_fun_c, DIV_fun_c, DIVU_fun_c, MULT_fun_c, SUB_fun_c,
-			SUBU_fun_c, AND_fun_c, NOR_fun_c, OR_fun_c, XOR_fun_c, SLL_fun_c, SRL_fun_c);
+			SUBU_fun_c, AND_fun_c, NOR_fun_c, OR_fun_c, XOR_fun_c, SLLV_fun_c, SRLV_fun_c, SLT_fun_c, SLTU_fun_c);
 		variable functions_special2 : FuncA(0 to no_special_functions_2 - 1) := (MUL_fun_c, MADD_fun_c);
 
 	begin
 		iterator_alu_op    := 0;
 		iterator_special_1 := 0;
 		iterator_special_2 := 0;
+		
+		wait for wait_time/10; 
 		
 		for i in 0 to 100 loop
 		
@@ -204,18 +206,31 @@ begin
 						report "Special XOR_fun_c ERROR!";
 					end if;
 
-				when SLL_fun_c =>
+				when SLLV_fun_c =>
 					if (acu_operation = alu_sll) then
 --						report "special SLL_fun_c OK!";
 					else
 						report "Special SLL_fun_c ERROR!";
 					end if;
 
-				when SRL_fun_c =>
+				when SRLV_fun_c =>
 					if (acu_operation = alu_srl) then
 --						report "special SRL_fun_c OK!";
 					else
 						report "Special SRL_fun_c ERROR!";
+					end if;
+				when SLT_fun_c  => 
+					if( acu_operation = alu_slt) then
+--						report "special SLT_fun_c OK!";
+					else
+						report "Special SLT_fun_c ERROR!";
+					end if;
+				
+				when SLTU_fun_c  => 
+					if( acu_operation = alu_sltu) then
+--						report "special SLTU_fun_c OK!";
+					else
+						report "Special SLTU_fun_c ERROR!";
 					end if;
 
 				when "UUUUUU" =>
