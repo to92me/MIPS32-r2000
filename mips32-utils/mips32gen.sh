@@ -64,15 +64,15 @@ fi
 # execute assembly 
 echo ""
 echo "Generating hex file"
-./"$ASEMBLY_EXECUTABLE" $FILE_ASM > "${FILE_ASM_PATH}${FILE_ASM_NAME_BASE}${HEX_SUFFIX}"
+./"$ASEMBLY_EXECUTABLE" $FILE_ASM -v -o "${FILE_ASM_PATH}${FILE_ASM_NAME_BASE}${HEX_SUFFIX}"
 echo "done"
 echo 
 
-echo "Generating binary and vhd file"
-echo
-./"$ROM_GENERATOR_EXECUTABLE" "${FILE_ASM_PATH}${FILE_ASM_NAME_BASE}${HEX_SUFFIX}" 
-echo
-echo "done"
+#echo "Generating binary and vhd file"
+#echo
+#./"$ROM_GENERATOR_EXECUTABLE" "${FILE_ASM_PATH}${FILE_ASM_NAME_BASE}${HEX_SUFFIX}" 
+#echo
+#echo "done"
 
 # mv "${ROM_GENERATOR_EXECUTABLE_DIR}${FILE_ASM_NAME_BASE}${VHD_SUFFIX}" "${FILE_ASM_PATH}/"
 # mv "${ROM_GENERATOR_EXECUTABLE_DIR}${FILE_ASM_NAME_BASE}${BIN_SUFFIX}" "${FILE_ASM_PATH}/"
