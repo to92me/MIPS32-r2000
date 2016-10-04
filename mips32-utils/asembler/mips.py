@@ -21,7 +21,12 @@ class MIPSProgram:
 
   def AddLines(self, lines):
     for l in lines:
-      self.HandleLine(l)
+        if l.find(';') != -1:
+            tmp_l = l[0:l.find(';')]
+            if tmp_l is not None:
+                self.HandleLine(tmp_l)
+        else:
+            self.HandleLine(l)
 
   def HandleLine(self, line):
     loc = sum([x.Size() for x in self.instructions])
