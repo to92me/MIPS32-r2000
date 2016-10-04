@@ -114,6 +114,7 @@ begin
 		alu_add when LW_op_c,
 		alu_nop when BEQ_op_c,
 		alu_nop when J_op_c,
+		alu_slt when SLTI_op_c, 
 		alu_nop when others;  
 
 end architecture Behavioral;

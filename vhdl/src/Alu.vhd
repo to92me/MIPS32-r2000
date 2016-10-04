@@ -77,10 +77,25 @@ begin
 				result <= std_logic_vector(signed(operand1) - signed(operand2));
 			when alu_subu =>
 				result <= std_logic_vector(unsigned(operand1) - unsigned(operand2));
-			when alu_sll  => 
+			when alu_sllv  => 
 				result  <= std_logic_vector(unsigned(operand1) sll to_integer(signed(operand2))); 
-			when alu_srl  => 
+			when alu_srlv  => 
 				result  <= std_logic_vector(unsigned(operand1) srl to_integer(signed(operand2))); 	
+			
+			--comparison 
+			when alu_slt  => 
+				if(signed(operand1) < signed(operand2)) then 
+					result  <=  x"00000001";
+				else 
+					result  <= std32_zero_c;    
+				end if; 
+			
+			when alu_sltu  =>
+			 	if(unsigned(operand1) < unsigned(operand2)) then 
+					result  <=  x"00000001";
+				else 
+					result  <= std32_zero_c;    
+				end if; 
 				
 			--NOP
 			when alu_nop =>
