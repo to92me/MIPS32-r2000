@@ -26,10 +26,10 @@ use IEEE.STD_LOGIC_1164.all;
 use STD.textio.all;
 use work.Definitions_pkg.all;
 
-entity memory_tb is
-end entity memory_tb;
+entity Memory_tb is
+end entity Memory_tb;
 
-architecture behavioral of memory_tb is
+architecture behavioral of Memory_tb is
 	type memory_t_arr is array (0 to 2 ** 14 - 1) of std32_st;
 
 	component memory
@@ -56,7 +56,7 @@ architecture behavioral of memory_tb is
 
 	signal temp_data : std32_st;
 begin
-	memory_c : memory port map(
+	Memory_c : Memory port map(
 			clk    => clk,
 			rst    => rst,
 			we     => mem_we,

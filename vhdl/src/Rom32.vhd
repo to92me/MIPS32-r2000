@@ -25,15 +25,15 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.Definitions_pkg.all;
 
-entity rom32 is
+entity Rom32 is
 	port(
 		rst  : in  std_logic;
 		addr : in  std32_st;
 		data : out std32_st
 	);
-end entity rom32;
+end entity Rom32;
 
-architecture RTL of rom32 is
+architecture RTL of Rom32 is
 	type rom_t is array (0 to 2 ** 19 - 1) of std8_st;
 	signal rom_0 : rom_t;
 	--	signal rom_1 : rom_t;

@@ -30,7 +30,7 @@ use ieee.std_logic_unsigned.all;
 use STD.textio.all;
 use work.Definitions_pkg.all;
 
-entity PcCounterUnit is
+entity PcUnit is
 	port(
 		clk      : in  std_logic; -- clock -- writing to Program Counter register is synchronous operation 
 		rst      : in  std_logic; -- reset -- after reset set Program Counter to reset value 
@@ -40,9 +40,9 @@ entity PcCounterUnit is
 		sign_imm : in  std32_st;  -- output of SignExtand Unit (extended 16 bit address from instruction ) for Branching 
 		instr    : in  std26_st   -- 26 downto 0 from current instruction. Used in Jump instructions 
 	);
-end entity PcCounterUnit;
+end entity PcUnit;
 
-architecture RTL of PcCounterUnit is
+architecture RTL of PcUnit is
 	signal pc_next            : std32_st;
 	signal pc_next_to_jmp_mux : std32_st;
 	signal pc_plus_4          : std32_st;

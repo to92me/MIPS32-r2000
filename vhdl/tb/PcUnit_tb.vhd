@@ -26,11 +26,11 @@ use STD.textio.all;
 use ieee.std_logic_unsigned.all;
 use work.definitions_pkg.all;
 
-entity PcCounterUnit_tb is
-end entity PcCounterUnit_tb;
+entity PcUnit_tb is
+end entity PcUnit_tb;
 
-architecture RTL of PcCounterUnit_tb is
-	component PcCounterUnit is
+architecture RTL of PcUnit_tb is
+	component PcUnit is
 		port(
 			clk      : in  std_logic;
 			rst      : in  std_logic;
@@ -40,7 +40,7 @@ architecture RTL of PcCounterUnit_tb is
 			sign_imm : in  std32_st;
 			instr    : in  std26_st
 		);
-	end component PcCounterUnit;
+	end component PcUnit;
 
 	signal c_clk      : std_logic;
 	signal c_rst      : std_logic;
@@ -57,7 +57,7 @@ architecture RTL of PcCounterUnit_tb is
 	signal check_branch : std32_st;
 
 begin
-	PcCounterUnit_c : PcCounterUnit
+	PcUnit_c : PcUnit
 		port map(
 			clk      => c_clk,
 			rst      => c_rst,

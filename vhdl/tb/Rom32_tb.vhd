@@ -23,22 +23,22 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.Definitions_pkg.all;
 
-entity rom32_tb is
-end entity rom32_tb;
+entity Rom32_tb is
+end entity Rom32_tb;
 
-architecture RTL of rom32_tb is
-	component rom32
+architecture RTL of Rom32_tb is
+	component Rom32
 		port(
 			rst  : in  std_logic;
 			addr : in  std32_st;
 			data : out std32_st
 		);
-	end component rom32;
+	end component Rom32;
 	signal rom32_addr : std32_st;
 	signal rom32_data : std32_st;
 	signal rom32_rst  : std_logic;
 begin
-	rom32_c : rom32
+	Rom32_c : Rom32
 		port map(
 			rst  => rom32_rst,
 			addr => rom32_addr,

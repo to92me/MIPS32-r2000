@@ -26,11 +26,11 @@ use IEEE.STD_LOGIC_1164.all;
 use STD.textio.all;
 use work.Definitions_pkg.all;
 
-entity alu_tb is
-end entity alu_tb;
+entity Alu_tb is
+end entity Alu_tb;
 
-architecture Behavioral of alu_tb is
-	component alu
+architecture Behavioral of Alu_tb is
+	component Alu
 		port(
 			operand1  : in  std32_st;
 			operand2  : in  std32_st;
@@ -38,7 +38,7 @@ architecture Behavioral of alu_tb is
 			result    : out std32_st;
 			zero      : out std_logic
 		);
-	end component alu;
+	end component Alu;
 
 	signal alu_operand1    : std32_st;
 	signal alu_operand2    : std32_st;
@@ -53,7 +53,7 @@ architecture Behavioral of alu_tb is
 
 begin                                   -- architecture Behavioral
 
-	alu_c : alu
+	Alu_c : Alu
 		port map(
 			operand1  => alu_operand1,
 			operand2  => alu_operand2,

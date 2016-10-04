@@ -34,7 +34,7 @@ use IEEE.NUMERIC_STD.all;
 use STD.textio.all;
 use work.Definitions_pkg.all;
 
-entity cpu is
+entity Cpu is
 	port(
 		clk        : in  std_logic;
 		rst        : in  std_logic;
@@ -49,10 +49,10 @@ entity cpu is
 		mem_addr   : out std32_st;
 		mem_wrData : out std32_st
 	);
-end entity cpu;
+end entity Cpu;
 
-architecture behavioral of cpu is
-	component registers
+architecture behavioral of Cpu is
+	component Registers
 		port(
 			clk     : in  std_logic;
 			rst     : in  std_logic;
@@ -64,7 +64,7 @@ architecture behavioral of cpu is
 			wrData  : in  std32_st;
 			wr      : in  std_logic
 		);
-	end component registers;
+	end component Registers;
 
 	component AluControlUnit is
 		port(
@@ -73,14 +73,14 @@ architecture behavioral of cpu is
 			operation    : out AluOp_t);
 	end component AluControlUnit;
 
-	component alu is
+	component Alu is
 		port(
 			operand1  : in  std32_st;
 			operand2  : in  std32_st;
 			operation : in  AluOp_t;
 			result    : out std32_st;
 			zero      : out std_logic);
-	end component alu;
+	end component Alu;
 
 	component ControlUnit
 		port(
@@ -96,7 +96,7 @@ architecture behavioral of cpu is
 		);
 	end component ControlUnit;
 
-	component PcCounterUnit
+	component PcUnit
 		port(
 			clk      : in  std_logic;
 			rst      : in  std_logic;
@@ -106,7 +106,7 @@ architecture behavioral of cpu is
 			sign_imm : in  std32_st;
 			instr    : in  std26_st
 		);
-	end component PcCounterUnit;
+	end component PcUnit;
 
 	component SignExtand
 		port(
@@ -171,7 +171,7 @@ architecture behavioral of cpu is
 	alias imm_a       : std16_st is instruction(15 downto 0);
 
 begin
-	register_c : registers
+	Register_c : Registers
 		port map(
 			clk     => clk,
 			rst     => rst,
@@ -183,13 +183,13 @@ begin
 			wrData  => reg_wrData,
 			wr      => reg_wr);
 
-	alucontrolunit_c : AluControlUnit
+	AluControlUnit_c : AluControlUnit
 		port map(
 			cu_operation => alucu_cu_operation,
 			func         => alucu_func,
 			operation    => alucu_operation);
 
-	alu_c : alu
+	Alu_c : Alu
 		port map(
 			operand1  => alu_operand1,
 			operand2  => alu_operand2,
@@ -197,7 +197,7 @@ begin
 			operation => alu_operation,
 			zero      => alu_zero);
 
-	controlunit_c : ControlUnit
+	ControlUnit_c : ControlUnit
 		port map(
 			opcode               => cu_opcode,
 			register_write       => cu_register_write,
@@ -210,7 +210,7 @@ begin
 			jump                 => cu_jump
 		);
 
-	PcCounterUnit_c : PcCounterUnit
+	PcUnit_c : PcUnit
 		port map(
 			clk      => clk,
 			rst      => rst,

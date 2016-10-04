@@ -26,13 +26,13 @@ use IEEE.STD_LOGIC_1164.all;
 use STD.textio.all;
 use work.Definitions_pkg.all;
 
-entity registers_tb is
-end entity registers_tb;
+entity Registers_tb is
+end entity Registers_tb;
 
-architecture behavioral of registers_tb is
+architecture behavioral of Registers_tb is
 	type register_t_arr is array (0 to 31) of std32_st; -- register is array of 32 "registers" = subtype std32_t
 	-- instance of registers component 
-	component registers is
+	component Registers is
 		port(
 			clk     : in  std_logic;
 			rst     : in  std_logic;
@@ -43,7 +43,7 @@ architecture behavioral of registers_tb is
 			wrAddr  : in  std_logic_vector(4 downto 0);
 			wrData  : in  std_logic_vector(31 downto 0);
 			wr      : in  std_logic);
-	end component registers;
+	end component Registers;
 
 	-- signals for wireing component and simulation 
 	signal reg_rdAddr1  : std_logic_vector(4 downto 0);
@@ -60,7 +60,7 @@ architecture behavioral of registers_tb is
 
 begin                                   -- architecture behavioral
 
-	registers_c : registers
+	Registers_c : Registers
 		port map(
 			clk     => clk,
 			rst     => rst,

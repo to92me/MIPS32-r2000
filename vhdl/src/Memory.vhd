@@ -26,7 +26,7 @@ use IEEE.NUMERIC_STD.all;
 use STD.textio.all;
 use work.Definitions_pkg.all;
 
-entity memory is
+entity Memory is
 
 	port(
 		clk    : in  std_logic; --clock: because write is on rising edge 
@@ -36,9 +36,9 @@ entity memory is
 		addr   : in  std32_st;  -- address on witch data will be written or read. Depends on we signal 
 		wrData : in  std32_st); -- data for writing to memory 
 
-end entity memory;
+end entity Memory;
 
-architecture behavioral of memory is
+architecture behavioral of Memory is
 begin
 	memory_process : process(clk, we, addr, rst) is
 		type memory_t_arr is array (0 to 2 ** 14 - 1) of std32_st; --512MB of memory 

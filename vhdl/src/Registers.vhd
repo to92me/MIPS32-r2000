@@ -27,7 +27,7 @@ use IEEE.NUMERIC_STD.all;
 use STD.textio.all;
 use work.Definitions_pkg.all;
 
-entity registers is
+entity Registers is
 	port(
 		clk     : in  std_logic;
 		rst     : in  std_logic;        -- asynchrony reset
@@ -39,9 +39,9 @@ entity registers is
 		wrData  : in  std32_st;         -- input data for writing to register operation
 		wr      : in  std_logic);       -- input bit for choosing write or read option (for easier writing code we created new type called rwType )
 
-end entity registers;
+end entity Registers;
 
-architecture Behavioral of registers is
+architecture Behavioral of Registers is
 	type register_t_arr is array (0 to 31) of std32_st;
 	signal registers_v : register_t_arr;
 

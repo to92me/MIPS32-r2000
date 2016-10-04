@@ -26,11 +26,11 @@ use IEEE.STD_LOGIC_1164.all;
 use STD.textio.all;
 use work.Definitions_pkg.all;
 
-entity cpu_tb is
-end entity cpu_tb;
+entity Cpu_tb is
+end entity Cpu_tb;
 
-architecture Behavioral of cpu_tb is
-	component cpu
+architecture Behavioral of Cpu_tb is
+	component Cpu
 		port(
 			clk        : in  std_logic;
 			rst        : in  std_logic;
@@ -43,17 +43,17 @@ architecture Behavioral of cpu_tb is
 			mem_addr   : out std32_st;
 			mem_wrData : out std32_st
 		);
-	end component cpu;
+	end component Cpu;
 
-	component rom32
+	component Rom32
 		port(
 			rst  : in  std_logic;
 			addr : in  std32_st;
 			data : out std32_st
 		);
-	end component rom32;
+	end component Rom32;
 
-	component memory
+	component Memory
 		port(
 			clk    : in  std_logic;
 			rst    : in  std_logic;
@@ -62,7 +62,7 @@ architecture Behavioral of cpu_tb is
 			addr   : in  std32_st;
 			wrData : in  std32_st
 		);
-	end component memory;
+	end component Memory;
 
 	signal clk            : std_logic;
 	signal rst            : std_logic;
@@ -76,7 +76,7 @@ architecture Behavioral of cpu_tb is
 	signal cpu_mem_addr   : std32_st;
 
 begin
-	cpu_c : cpu
+	Cpu_c : Cpu
 		port map(
 			clk        => clk,
 			rst        => rst,
@@ -90,14 +90,14 @@ begin
 			mem_wrData => cpu_mem_wrData
 		);
 
-	rom32_c : rom32
+	Rom32_c : Rom32
 		port map(
 			rst  => rst,
 			addr => cpu_rom_addr,
 			data => cpu_rom_data
 		);
 
-	memory_c : memory
+	Memory_c : Memory
 		port map(
 			clk    => clk,
 			rst    => rst,

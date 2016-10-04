@@ -26,10 +26,10 @@ use IEEE.STD_LOGIC_1164.all;
 use STD.textio.all;
 use work.Definitions_pkg.all;
 
-entity controlunit_tb is
-end entity controlunit_tb;
+entity ControlUnit_tb is
+end entity ControlUnit_tb;
 
-architecture Behavioral of controlunit_tb is
+architecture Behavioral of ControlUnit_tb is
 	component ControlUnit
 		port(
 			opcode               : in  std6_st;
@@ -58,7 +58,7 @@ architecture Behavioral of controlunit_tb is
 	constant wait_time : time := 1 ns;
 
 begin                                   -- architecture Behavioral 
-	controlunit_c : ControlUnit
+	ControlUnit_c : ControlUnit
 		port map(
 			opcode               => cu_opcode,
 			register_write       => cu_register_write,

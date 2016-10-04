@@ -25,7 +25,7 @@ use IEEE.NUMERIC_STD.all;
 use STD.textio.all;
 use work.Definitions_pkg.all;
 
-entity alu is
+entity Alu is
 	port(
 		operand1  : in  std32_st;		-- operand1 - got from registers 
 		operand2  : in  std32_st;		-- operand2 - got from AluSource MUX (registers or immediate from instruction)
@@ -34,9 +34,9 @@ entity alu is
 		zero      : out std_logic		-- zero - signal for branch instructions (if operand1 == operand2 set zero to 1) 
 	);
 
-end entity alu;
+end entity Alu;
 
-architecture Behavioral of alu is
+architecture Behavioral of Alu is
 begin
 	-- if operand1 and operand2 are equal zero is '1' 
 	zero_result : process(operand1, operand2, operation)

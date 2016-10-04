@@ -26,10 +26,10 @@ use IEEE.STD_LOGIC_1164.all;
 use STD.textio.all;
 use work.Definitions_pkg.all;
 
-entity alucontrolunit_tb is
-end entity alucontrolunit_tb;
+entity AluControlUnit_tb is
+end entity AluControlUnit_tb;
 
-architecture Behavioral of alucontrolunit_tb is
+architecture Behavioral of AluControlUnit_tb is
 	component AluControlUnit is
 		port(
 			cu_operation : in  AluOp_t;
@@ -51,7 +51,7 @@ architecture Behavioral of alucontrolunit_tb is
 	constant no_special_functions_2 : integer := 2;
 
 begin
-	alucontrolunit_c : AluControlUnit
+	AluControlUnit_c : AluControlUnit
 		port map(
 			cu_operation => acu_cu_operation,
 			operation    => acu_operation,
