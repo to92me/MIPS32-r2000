@@ -50,11 +50,20 @@ architecture RTL of PcUnit_tb is
 	signal c_sign_imm : std32_st;
 	signal c_instr    : std26_st;
 
-	signal rand_num     : integer := 0;
+	signal rand_num       : integer := 0;
 	--	signal pc_plus_4: std32_st; 
-	signal tmp          : std32_st;
-	signal check_jump   : std32_st;
-	signal check_branch : std32_st;
+	signal check_pc       : std32_st;
+	signal check_jump     : std32_st;
+	signal check_branch   : std32_st;
+	signal check_pc_plus4 : std32_st;
+	signal check_pc_to_jump_mux : std32_st;
+	signal check_pc_next  : std32_st;  
+
+	constant seed_array_size : integer := 10;
+	type seed_array_t is array (0 to seed_array_size - 1) of integer;
+	signal seed_array           : seed_array_t := (2, 31, 3, 5, 7, 1, 426, 57268, 27, 200);
+	shared variable seed_choser : integer;
+	signal seed                 : integer;
 
 begin
 	PcUnit_c : PcUnit
@@ -68,11 +77,43 @@ begin
 			instr    => c_instr
 		);
 
-	c_instr    <= "11111111111111111111111111";
-	c_sign_imm <= "00000000111100001111000011111111";
-
 	--------------------------------------------------------------
 	-- DATA DRIVERS 
+	--------------------------------------------------------------
+	-- "random generator"
+	--------------------------------------------------------------	
+	seed_generator : process is
+	begin
+		seed_choser := 1;
+		for i in 0 to 1000 loop
+			seed_choser := seed_choser + (i mod seed_array_size);
+			seed        <= seed_array(seed_choser mod seed_array_size);
+			wait for 50 ns;
+		end loop;
+	end process seed_generator;
+
+	instruction_generator : process is
+		variable c_instr_v : std26_st;
+	begin
+		c_instr_v := std_logic_vector(to_unsigned(1, c_instr_v'length));
+		for i in 0 to 1000 loop
+			c_instr_v := std_logic_vector(unsigned(c_instr_v) + to_unsigned(seed, c_instr_v'length));
+			c_instr   <= c_instr_v;
+			wait for 10 ns;
+		end loop;
+	end process instruction_generator;
+
+	c_sign_imm_generator : process is
+		variable c_sign_imm_v : std32_st;
+	begin
+		c_sign_imm_v := std_logic_vector(to_unsigned(1, c_sign_imm_v'length));
+		for i in 0 to 1000 loop
+			c_sign_imm_v := std_logic_vector(unsigned(c_sign_imm_v) + to_unsigned(seed, c_sign_imm_v'length));
+			c_sign_imm   <= c_sign_imm_v;
+			wait for 10 ns;
+		end loop;
+	end process c_sign_imm_generator;
+
 	--------------------------------------------------------------
 	-- clock driver 
 	--------------------------------------------------------------	
@@ -128,58 +169,33 @@ begin
 	--------------------------------------------------------------
 	-- pc out checker 
 	--------------------------------------------------------------
-	pc_out_checker : process(c_clk, c_rst) is
+
+	check_pc_plus4 <= std32_st(unsigned(check_pc) + 4);
+	check_jump     <= check_pc_plus4(31 downto 28) & (std28_st(unsigned(c_instr) & "00"));
+	check_branch   <= (std32_st(unsigned(c_sign_imm) sll 2)) + check_pc_plus4;
+	
+	check_pc_to_jump_mux <= check_branch when (c_pc_src = '1') else check_pc_plus4;
+	check_pc_next <= check_jump when (c_jump = '1') else check_pc_to_jump_mux;
+
+	pc_out_checker : process(c_pc, c_clk, c_rst) is
 		variable L         : line;
+		variable pc        : std32_st;
 		variable pc_plus_4 : std32_st;
+		variable pc_next   : std32_st;
+		variable pc_jump   : std32_st;
+		variable pc_branch : std32_st;
 	begin
 		if (c_rst = '1') then
-			pc_plus_4 := std32_zero_c;
-			tmp       <= pc_plus_4;
-		end if;
+			check_pc <= x"00000000";
 
-		if (rising_edge(c_clk)) then
-			--			wait for 1 ns; 
-			tmp        <= pc_plus_4;
-			check_jump <= pc_plus_4(31 downto 28) & (std28_st(unsigned(c_instr) sll 2));
-			if (c_jump = '1') then
-				if (c_pc = pc_plus_4(31 downto 28) & (std28_st(unsigned(c_instr) sll 2))) then
-					write(L, time'IMAGE(now));
-					write(L, string'("Jump OK!"));
-					writeline(output, L);
-				else
-					check_jump <= pc_plus_4(31 downto 28) & (std28_st(unsigned(c_instr) sll 2));
-					write(L, time'IMAGE(now));
-					write(L, string'("Jump ERROR!"));
-					writeline(output, L);
-				end if;
+		elsif (rising_edge(c_clk)) then
+			check_pc <= check_pc_next;
+		else
+			if (check_pc = c_pc) then
+				report "OK";
 			else
-				if (c_pc_src = '1') then
-					check_branch <= (std32_st(unsigned(c_sign_imm) sll 2)) + pc_plus_4;
-					if (c_pc = (std32_st(unsigned(c_sign_imm) sll 2)) + pc_plus_4) then
-						write(L, time'IMAGE(now));
-						write(L, string'("Branch OK!"));
-						writeline(output, L);
-					else
-						check_branch <= (std32_st(unsigned(c_sign_imm) sll 2)) + pc_plus_4;
-						write(L, time'IMAGE(now));
-						write(L, string'("Branch ERROR!"));
-						writeline(output, L);
-					end if;
-				else
-					if (c_pc = pc_plus_4) then
-						write(L, time'IMAGE(now));
-						write(L, string'("PC+4 OK!"));
-						writeline(output, L);
-					else
-						write(L, time'IMAGE(now));
-						write(L, string'("PC+4 ERROR!"));
-						writeline(output, L);
-					end if;
-				end if;
+				report "ERROR";
 			end if;
-
-			pc_plus_4 := c_pc + 4;
-			tmp       <= pc_plus_4;
 		end if;
 
 	end process pc_out_checker;
