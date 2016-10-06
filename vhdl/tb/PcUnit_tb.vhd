@@ -50,8 +50,6 @@ architecture RTL of PcUnit_tb is
 	signal c_sign_imm : std32_st;
 	signal c_instr    : std26_st;
 
-	signal rand_num       : integer := 0;
-	--	signal pc_plus_4: std32_st; 
 	signal check_pc       : std32_st;
 	signal check_jump     : std32_st;
 	signal check_branch   : std32_st;
@@ -178,12 +176,6 @@ begin
 	check_pc_next <= check_jump when (c_jump = '1') else check_pc_to_jump_mux;
 
 	pc_out_checker : process(c_pc, c_clk, c_rst) is
-		variable L         : line;
-		variable pc        : std32_st;
-		variable pc_plus_4 : std32_st;
-		variable pc_next   : std32_st;
-		variable pc_jump   : std32_st;
-		variable pc_branch : std32_st;
 	begin
 		if (c_rst = '1') then
 			check_pc <= x"00000000";
@@ -192,7 +184,7 @@ begin
 			check_pc <= check_pc_next;
 		else
 			if (check_pc = c_pc) then
-				report "OK";
+--				report "OK";
 			else
 				report "ERROR";
 			end if;
