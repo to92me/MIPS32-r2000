@@ -56,6 +56,8 @@ architecture Behavioral of ControlUnit_tb is
 
 	signal tmp_opcode  : std6_st;
 	constant wait_time : time := 1 ns;
+	constant seed_array : integer := 4; 
+	constant opcode_number : integer := 12; 
 
 begin                                   -- architecture Behavioral 
 	ControlUnit_c : ControlUnit
@@ -76,69 +78,20 @@ begin                                   -- architecture Behavioral
 --------------------------------------------------------------
 -- DATA DRIVERS 
 --------------------------------------------------------------
-	opcode_driver : process is
+opcode_driver : process is
+	type Opcode_at is array (integer range <>) of std6_st;
+	variable opcode_array : Opcode_at(0 to opcode_number-1) :=(special1_c, special2_c, ADDI_op_c, ADDIU_op_c, ANDI_op_c, ORI_op_c, LW_op_c, SB_op_c, BEQ_op_c, J_op_c, SLTI_op_c, SLTIU_op_c);  
+		variable iterator_array : integer; 
 	begin
-		wait for wait_time;
-		tmp_opcode <= special1_c;
-		wait for wait_time;
-		tmp_opcode <= ADDI_op_c;
-		wait for wait_time;
-		tmp_opcode <= special2_c;
-		wait for wait_time;
-		tmp_opcode <= ADDIU_op_c;
-		wait for wait_time;
-		tmp_opcode <= ANDI_op_c;
-		wait for wait_time;
-		tmp_opcode <= ORI_op_c;
-		wait for wait_time;
-		tmp_opcode <= XORI_op_c;
-		wait for wait_time;
-		tmp_opcode <= LW_op_c;
-		wait for wait_time;
-		tmp_opcode <= SW_op_c;
-		wait for wait_time;
-		tmp_opcode <= BEQ_op_c;
-		wait for wait_time;
-		tmp_opcode <= J_op_c;
-		wait for wait_time;
+	
+		iterator_array    := 0;
+		wait for wait_time/10; 
 		
-		
-		wait for wait_time;
-		tmp_opcode <= special1_c;
-		wait for wait_time;
-		tmp_opcode <= ADDI_op_c;
-		wait for wait_time;
-		tmp_opcode <= special2_c;
-		wait for wait_time;
-		tmp_opcode <= ADDIU_op_c;
-		wait for wait_time;
-		tmp_opcode <= LW_op_c;
-		wait for wait_time;
-		tmp_opcode <= SW_op_c;
-		wait for wait_time;
-		tmp_opcode <= J_op_c;
-		wait for wait_time;
-		tmp_opcode <= LW_op_c;
-		wait for wait_time;
-		tmp_opcode <= SW_op_c;
-		wait for wait_time;
-		tmp_opcode <= LW_op_c;
-		wait for wait_time;
-		tmp_opcode <= SW_op_c;
-		wait for wait_time;
-		tmp_opcode <= LW_op_c;
-		wait for wait_time;
-		tmp_opcode <= SW_op_c;
-		wait for wait_time;
-		tmp_opcode <= LW_op_c;
-		wait for wait_time;
-		tmp_opcode <= SW_op_c;
-		wait for wait_time;
-		tmp_opcode <= LW_op_c;
-		wait for wait_time;
-		tmp_opcode <= SW_op_c;
-		
-		
+		for i in 0 to 100 loop
+				iterator_array := iterator_array + seed_array;
+				tmp_opcode  <= opcode_array(iterator_array mod opcode_number); 
+				wait for wait_time; 	
+		end loop; 	
 	end process opcode_driver;
 
 --------------------------------------------------------------
