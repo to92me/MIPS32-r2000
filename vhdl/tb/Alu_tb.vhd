@@ -48,7 +48,7 @@ architecture Behavioral of Alu_tb is
 	signal alu_zero        : std_logic;
 	constant wait_time     : time    := 1 ns;
 	constant seed_array    : integer := 3;
-	constant seed_operand1 : integer := 2;
+	constant seed_operand1 : integer := 7;
 	constant seed_operand2 : integer := 3;
 	constant no_alu_operations :integer :=  13; 
 
