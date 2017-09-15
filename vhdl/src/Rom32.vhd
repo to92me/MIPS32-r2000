@@ -56,7 +56,7 @@ begin
 			mem(i) := x"00";
 		end loop;
 		index := 0;
-		FILE_OPEN(mem_file, "/home/tome/Work/college/psds/mips32-utils/book_example/app2.hex", READ_MODE);
+		FILE_OPEN(mem_file, "/home/tome/Work/projects/mips32/mips32-utils/book_example/app2.hex", READ_MODE);
 		while not endfile(mem_file) loop
 			readline(mem_file, L);
 			result := 0;
