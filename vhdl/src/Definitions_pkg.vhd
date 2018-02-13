@@ -39,6 +39,7 @@ package Definitions_pkg is
 	subtype std26_st is std_logic_vector(25 downto 0); -- address for jump instruction 
 	subtype std64_st is std_logic_vector(63 downto 0); -- for dual result in ALU
 	subtype std28_st is std_logic_vector(27 downto 0); 
+	subtype std33_st is std_logic_vector(32 downto 0); -- for ALU res + zero 
 
 	-----------------------------------------------------------------------------
 
@@ -47,6 +48,7 @@ package Definitions_pkg is
 	-----------------------------------------------------------------------------
 
 	--  type std32_st_file_t is file of std32_st_file_t;  -- type for opening rom and memory files
+	
 
 	-----------------------------------------------------------------------------
 	-- constants
@@ -54,6 +56,9 @@ package Definitions_pkg is
 
 	constant std32_zero_c : std32_st := "00000000000000000000000000000000";
 	constant std32_one_c  : std32_st := "11111111111111111111111111111111";
+	
+	constant std33_zero_c : std33_st := "000000000000000000000000000000000";
+	constant std33_one_c  : std33_st := "111111111111111111111111111111111";
 
 	------------------------------------------------------------------------------
 	-- ######################### INSTRUCTIONS OPCODE ###########################
@@ -196,7 +201,7 @@ package Definitions_pkg is
 		--    alu_mfhi, alu_mflo, alu_movn, alu_movz, alu_mthi, alu_mtlo,
 		alu_not,
 		alu_nop);                       -- alu operations
-
+	
 end package Definitions_pkg;
     
     
