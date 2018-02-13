@@ -73,14 +73,14 @@ architecture behavioral of Cpu is
 			operation    : out AluOp_t);
 	end component AluControlUnit;
 
-	component Alu is
+	component Alu_ft is
 		port(
 			operand1  : in  std32_st;
 			operand2  : in  std32_st;
 			operation : in  AluOp_t;
 			result    : out std32_st;
 			zero      : out std_logic);
-	end component Alu;
+	end component Alu_ft;
 
 	component ControlUnit
 		port(
@@ -189,7 +189,7 @@ begin
 			func         => alucu_func,
 			operation    => alucu_operation);
 
-	Alu_c : Alu
+	Alu_ft_c : Alu_ft
 		port map(
 			operand1  => alu_operand1,
 			operand2  => alu_operand2,
