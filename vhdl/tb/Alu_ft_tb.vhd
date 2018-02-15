@@ -20,7 +20,7 @@
 -------------------------------------------------------------------------------
 
 library modelsim_lib;
-use modelsim_lib.all;
+use modelsim_lib.util.all;
 library IEEE;
 use IEEE.NUMERIC_STD.all;
 use IEEE.STD_LOGIC_1164.all;
@@ -48,7 +48,7 @@ architecture Behavioral of Alu_ft_tb is
 	signal alu_result      : std32_st;
 	--  signal alu_result64  : std32_st;
 	signal alu_zero        : std_logic;
-	constant wait_time     : time    := 1 ns;
+	constant wait_time     : time    := 2 ns;
 	constant seed_array    : integer := 3;
 	constant seed_operand1 : integer := 7;
 	constant seed_operand2 : integer := 3;
@@ -265,9 +265,67 @@ begin                                   -- architecture Behavioral
     -- signal forcer  
     --------------------------------------------------------------
     singnal_forcer : process is
+    
+    constant alu_path1 : String(1 to 27) := "/Alu_ft_tb/Alu_ft_c/Alu_c__";
+    constant alu_path2 : String(1 to 8)  := "/alu_6c/";
+    
+    constant alu_part_result   : String(1 to 6) := "result";
+    constant alu_part_operand1 : String(1 to 8) := "operand1";
+    constant alu_part_operand2 : String(1 to 8) := "operand2";
+    constant alu_part_zero     : String(1 to 4) := "zero";
+    
+    type AluFtPat_t is array (9 downto 0) of String(1 to 32);
+	variable alu_ft_pat : AluFtPat_t := (std32_pat0_c, std32_pat1_c, std32_pat2_c, std32_pat3_c, std32_pat4_c, std32_pat5_c, std32_pat6_c, std32_pat7_c, std32_pat8_c, std32_pat9_c);
+	
+	variable iterator      : integer := 1;
+	variable iterator_aluc : integer; 
+	
+	variable alu_path_operand1 	: String(1 to 44);
+	variable alu_path_operand2 	: String(1 to 44);	
+	variable alu_path_zero 		: String(1 to 40);
+	variable alu_path_result 	: String(1 to 42);
+	    
     begin
---        signal_force("/Alu_ft_tb/Alu_ft_c/Alu_c[0]", "1",0 ns,freeze, OPEN,1);
-        
+		
+		--wait for (wait_time / 2);
+
+		
+		
+		for i in 0 to 5 loop
+			alu_path_operand1 := alu_path1 & integer'Image(i) & alu_path2 & alu_part_operand1; 
+			alu_path_operand2 := alu_path1 & integer'Image(i) & alu_path2 & alu_part_operand2;
+			alu_path_result   := alu_path1 & integer'Image(i) & alu_path2 & alu_part_result;
+			alu_path_zero 	  := alu_path1 & integer'Image(i) & alu_path2 & alu_part_zero; 
+			
+			for j in 0 to 2 loop
+			
+				wait for (wait_time / 2); 
+				
+				if ( j = 0) then
+					signal_force(alu_path_result, alu_ft_pat(iterator), 0 ns, freeze, wait_time,0);
+				
+				elsif ( j = 1) then
+					signal_force(alu_path_zero, "1", 0 ns, freeze, wait_time,0);
+				
+				else 
+					signal_force(alu_path_result, alu_ft_pat(iterator), 0 ns, freeze, wait_time,0);
+					signal_force(alu_path_zero, "1", 0 ns, freeze, wait_time ,0);
+				end if; 
+				
+				wait for (wait_time / 2); 
+				
+			end loop;
+		end loop;
+			
+		iterator := iterator + seed_array;
+		if iterator > 10-1 then
+			iterator := iterator - 10;		
+		end if;
+		
+      --wait for (wait_time /2);
+      --signal_force("/Alu_ft_tb/Alu_ft_c/Alu_c__0/alu_6c/zero", "1", 0 ns, freeze, wait_time ,1);
+      --wait for (wait_time /2);
+      --wait for wait_time;    
     end process singnal_forcer;     	
 
 end architecture Behavioral;
