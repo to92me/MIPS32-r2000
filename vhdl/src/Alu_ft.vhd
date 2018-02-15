@@ -29,9 +29,9 @@ entity Alu_ft is
 	port(
 		operand1  : in  std32_st := std32_zero_c;	-- operand1 - got from registers 
 		operand2  : in  std32_st := std32_zero_c;	-- operand2 - got from AluSource MUX (registers or immediate from instruction)
-		operation : in  AluOp_t  := alu_nop;		-- operation - this operation ALU should execute 
+		operation : in  AluOp_t  := alu_add;		-- operation - this operation ALU should execute 
 		result    : out std32_st := std32_zero_c;	-- result from operation 
-		zero      : out std_logic := '0'		    -- zero - signal for branch instructions (if operand1 == operand2 set zero to 1) 
+		zero      : out std_logic:= '1'		    -- zero - signal for branch instructions (if operand1 == operand2 set zero to 1) 
 	);
 
 end entity Alu_ft;
